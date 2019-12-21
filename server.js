@@ -16,10 +16,10 @@ app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/profile', require('./routes/api/profile'));
 app.use('/api/league', require('./routes/api/league'));
-app.use('/api/season', require('./routes/api/season'));
 app.use('/api/game', require('./routes/api/game'));
 app.use('/api/club', require('./routes/api/club'));
 app.use('/api/player', require('./routes/api/player'));
+app.use('/api/playerInClub', require('./routes/api/playerInClub'));
 
 const PORT = process.env.PORT || 5000;
 

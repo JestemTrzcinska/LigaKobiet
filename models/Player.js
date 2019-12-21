@@ -9,29 +9,15 @@ const PlayerSchema = new mongoose.Schema({
     type: String,
     reqired: true
   },
+  name: {
+    type: String
+  },
   avatar: {
     type: String
   },
-  inClub: [
-    {
-      from: {
-        type: Date,
-        required: true
-      },
-      to: {
-        type: Date,
-        required: true
-      },
-      current: {
-        type: Boolean,
-        default: true
-      },
-      club: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'club'
-      }
-    }
-  ]
+  birth: {
+    type: Date
+  }
 });
 
 module.exports = Player = mongoose.model('player', PlayerSchema);

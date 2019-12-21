@@ -13,6 +13,12 @@ router.post(
   [
     check('name', 'Nazwa jest wymagana.')
       .not()
+      .isEmpty(),
+    check('from', 'Podanie daty jest wymagane.')
+      .not()
+      .isEmpty(),
+    check('to', 'Podanie daty jest wymagane.')
+      .not()
       .isEmpty()
   ],
   async (req, res) => {
@@ -21,19 +27,24 @@ router.post(
       return res.status(400).json({ errors: errors.array() }); // bad request
     }
 
-    const { name } = req.body;
+    const { name, from, to } = req.body;
 
     try {
       // See if the League exists
-      let league = await League.findOne({ name });
-      if (league) {
+      let leagueFromDB = await League.findOne({ name, from, to });
+      if (leagueFromDB) {
         return res.status(400).json({
           errors: [{ msg: 'Taka liga już istnieje.' }]
         });
       }
 
       // Create
-      league = new League({ name });
+      const league = new League({
+        name,
+        from,
+        to
+      });
+
       await league.save();
       res.json(league);
 
@@ -60,3 +71,28 @@ router.get('/', async (req, res) => {
 });
 
 module.exports = router;
+
+// NOTATKI REACT MONGO
+
+// const { name, from, to, leagues } = req.body;
+// try {
+//   // See if the Season already exists
+//   let seasonFromDB = await Season.findOne({ name });
+//   if (seasonFromDB) {
+//     return res.status(400).json({
+//       errors: [{ msg: 'Taki sezon już istnieje w bazie.' }]
+//     });
+//   }
+
+//   // See if puted leagues are in db
+//   const leaguesFromDB = await League.find({
+//     name: { $in: leagues }
+//   }).exec();
+//   ///////////////////////////////////////////////////// dodać by pokazywał, które ligi się nie zgadzają ///////////////////
+
+//   const season = new Season({
+//     name,
+//     from,
+//     to,
+//     leagues: leaguesFromDB
+//   });

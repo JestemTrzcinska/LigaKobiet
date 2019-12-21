@@ -4,6 +4,16 @@ const LeagueSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
+  },
+  from: {
+    type: Date,
+    default: Date.now,
+    required: true
+  },
+  to: {
+    type: Date,
+    default: Date.now,
+    required: true
   }
 });
 

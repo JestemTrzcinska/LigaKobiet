@@ -17,7 +17,6 @@ router.post(
     check('lastName', 'Nazwisko zawodniczki jest wymagane.')
       .not()
       .isEmpty()
-    // check('inClub', 'Podanie klubu zawodniczki jest wymagane.').not().isEmpty()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -25,54 +24,49 @@ router.post(
       return res.status(400).json({ errors: errors.array() }); // bad request
     }
 
-    const { firstName, lastName, inClub } = req.body;
-
-    //const {firstName, lastName, avatar, from, to, current, club} = req.body;
+    let { firstName, lastName, name, avatar, birth } = req.body;
 
     try {
-      // See if the Player exists !!!!!!!!!!!!!!!!!!!!!!!!!!! dwie o takich samych danych
-      let player = await Player.findOne({ firstName, lastName, inClub });
-      if (player) {
+      // // See if Player exists
+      firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+
+      lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1);
+
+      if (name) name = name.charAt(0).toUpperCase() + name.slice(1);
+      else name = firstName + ' ' + lastName;
+
+      const playerDB = await Player.findOne({
+        firstName,
+        lastName,
+        name,
+        birth
+      });
+      if (playerDB) {
         return res.status(400).json({
-          errors: [{ msg: 'Taka zawodniczka jest już w bazie.' }]
+          msg:
+            'Taka zawodnika już istnieje w bazie danych. Jezli chodzi o inną spróbuj ponowanie uzupełniając datę urodzenia'
         });
       }
 
-      // // See if Club exists
-      const clubFromRequest = inClub.club; //////////////////////
-      const clubFromDB = await Club.findOne({
-        name: clubFromRequest
-      });
-      if (!clubFromDB) {
-        return res
-          .status(400)
-          .json({ msg: 'Taki klub nie istnieje w bazie danych.' });
-      }
-
       // Get users gravatar
-      const avatar = gravatar.url({
+      avatar = gravatar.url({
         s: '200', // size
         r: 'pg', // reading; cant be naked people
         d: 'mm' // default; user icon when he doesnt have one
       });
 
-      // Bulid playerFields object
-      const playerFields = {};
-      playerFields.firstName = firstName;
-      playerFields.lastName = lastName;
-      playerFields.avatar = avatar;
+      const player = new Player({
+        firstName,
+        lastName,
+        name,
+        avatar,
+        birth
+      });
 
-      // playerFields.inClub = {};
-      // playerFields.inClub.from = inClub.from;
-      // playerFields.inClub.to = inClub.to;
-      // playerFields.inClub.current = inClub.current;
-      // playerFields.inClub.club = clubFromDB;
-
-      // Create
-      player = new Player(playerFields);
       await player.save();
       res.json(player);
-      // res.send('Player added/updated');
+
+      // res.send('Player added');
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server error.');
@@ -94,3 +88,55 @@ router.get('/', async (req, res) => {
 });
 
 module.exports = router;
+
+// // build inClub object for player
+// const playerFields = {};
+// playerFields.firstName = firstName;
+// playerFields.lastName = lastName;
+// playerFields.avatar = avatar;
+
+// playerFields.inClub = [];
+
+// for (i = 0; i < inClub.length; i++) {
+//   let playerFieldsCLUB = {};
+
+//   if (inClub[i].from) playerFieldsCLUB.from = inClub[i].from;
+//   else
+//     return res
+//       .status(400)
+//       .json({ msg: 'Podanie daty początkowej jest obowiązkowe.' });
+
+//   if (inClub[i].current == true) {
+//     playerFieldsCLUB.current = inClub[i].current;
+//   } else {
+//     if (inClub[i].to) playerFieldsCLUB.to = inClub[i].to;
+//     else
+//       return res
+//         .status(400)
+//         .json({ msg: 'Podanie daty końcowej jest obowiązkowe.' });
+//   }
+
+//   if (!inClub[i].club)
+//     return res.status(400).json({
+//       msg: 'Podanie nazwy klubu jest obowiązkowe.'
+//     });
+
+//   // // See if Club exists
+//   const clubFromRequest = inClub[i].club;
+//   const clubFromDB = await Club.findOne({
+//     name: clubFromRequest
+//   });
+//   if (!clubFromDB) {
+//     return res
+//       .status(400)
+//       .json({ msg: 'Taki klub nie istnieje w bazie danych.' });
+//   }
+//   playerFieldsCLUB.club = clubFromDB.id;
+
+//   playerFields.inClub.push(playerFieldsCLUB);
+// }
+
+// // Create
+// player = new Player(playerFields);
+// await player.save();
+// res.json(player);

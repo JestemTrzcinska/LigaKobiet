@@ -8,7 +8,7 @@ const ClubSchema = new mongoose.Schema({
   },
   league: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'league' // reference
+    ref: 'league' // reference DO SEASONU ?????????????/
   },
   logo: {
     type: String

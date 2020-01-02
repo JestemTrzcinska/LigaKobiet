@@ -7,12 +7,10 @@ const LeagueSchema = new mongoose.Schema({
   },
   from: {
     type: Date,
-    default: Date.now,
     required: true
   },
   to: {
     type: Date,
-    default: Date.now,
     required: true
   }
 });

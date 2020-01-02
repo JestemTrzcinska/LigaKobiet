@@ -17,8 +17,7 @@ const GameSchema = new mongoose.Schema({
     type: String
   },
   date: {
-    type: Date,
-    default: '2019-10-10'
+    type: Date
   },
   goals: [
     {

@@ -14,16 +14,16 @@ const User = require('../../models/User');
 router.post(
   '/',
   [
-    check('first_name', 'Imię jest wymagane.')
+    check('firstName', 'Imię jest wymagane.')
       .not()
       .isEmpty(),
-    check('last_name', 'Nazwisko jest wymagane.')
+    check('lastName', 'Nazwisko jest wymagane.')
       .not()
       .isEmpty(),
     check('email', 'Proszę podaj prawidłowego maila.').isEmail(),
     check(
       'password',
-      'Wprowadź hasło z 6 lub większą ilością znaków.'
+      'Wprowadź hasło z ilością znaków większą niż 6.'
     ).isLength({ min: 6 })
   ],
   async (req, res) => {
@@ -32,7 +32,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() }); // bad request
     }
 
-    const { first_name, last_name, email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
 
     try {
       // See if the User exists
@@ -51,8 +51,8 @@ router.post(
       });
 
       user = new User({
-        first_name,
-        last_name,
+        firstName,
+        lastName,
         email,
         avatar,
         password

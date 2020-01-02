@@ -80,6 +80,11 @@ router.post(
 router.get('/', async (req, res) => {
   try {
     const player = await Player.find(req.player);
+    if (!player) {
+      return res
+        .status(400)
+        .json({ msg: 'Nie ma ani jednej zawodniczki w bazie danych.' });
+    }
     res.json(player);
   } catch (err) {
     console.error(err.message);

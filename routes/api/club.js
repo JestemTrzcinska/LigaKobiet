@@ -11,7 +11,7 @@ const Club = require('../../models/Club');
 router.post(
   '/',
   [
-    check('name', 'Nazwa jest wymagana.')
+    check('name', 'Nazwa klubu jest wymagana.')
       .not()
       .isEmpty(),
     check('league', 'Podanie ligi jest wymagane.')
@@ -35,9 +35,8 @@ router.post(
         });
       }
 
-      const leagueFromRequest = league;
       const leagueFromDB = await League.findOne({
-        name: leagueFromRequest
+        name: league
       });
       if (!leagueFromDB) {
         return res
@@ -54,7 +53,7 @@ router.post(
 
       club = new Club({
         name,
-        league: leagueFromDB.id,
+        league: leagueFromDB,
         logo
       });
 
@@ -75,12 +74,13 @@ router.post(
 router.get('/', async (req, res) => {
   try {
     const club = await Club.find(req.club);
-    console.log(club);
     if (!club) {
-      console.log(club);
+      return res
+        .status(400)
+        .json({ msg: 'Nie ma ani jednego klubu w bazie danych.' });
+    }
+    if (!club) {
       return res.status(400).json({ msg: 'Nie ma klubu' });
-    } else {
-      console.log(club);
     }
     res.json(club);
   } catch (err) {

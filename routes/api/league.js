@@ -63,6 +63,11 @@ router.post(
 router.get('/', async (req, res) => {
   try {
     const league = await League.find(req.League);
+    if (!league) {
+      return res.status(400).json({
+        msg: 'Nie ma ni jednej ligi w bazie danych.'
+      });
+    }
     res.json(league);
   } catch (err) {
     console.error(err.message);

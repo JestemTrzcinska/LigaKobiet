@@ -17,7 +17,7 @@ const Login = () => {
   };
   return (
     <Fragment>
-      <div className='alert alert-danger'>Nieprawidłowe dane</div>
+      {/* <div className='alert alert-danger'>Nieprawidłowe dane</div> */}
       <p className='lead'>
         <i className='fas fa-user'></i> Zaloguj się na swoje konto
       </p>

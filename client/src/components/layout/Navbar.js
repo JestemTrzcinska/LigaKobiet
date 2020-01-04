@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <nav className='navbar bg-dark'>
+    <div className='navbar bg-dark'>
       <h1>
         <Link to='/'>
           <i className='fas fa-code'></i> Liga Kobiet
@@ -14,13 +14,10 @@ const Navbar = () => {
           <Link to='/profiles'>Developers</Link>
         </li>
         <li>
-          <Link to='/register'>Rejestracja</Link>
-        </li>
-        <li>
-          <Link to='/login'>Logowanie</Link>
+          <Link to='/loginregister'>Logowanie/Rejestracja</Link>
         </li>
       </ul>
-    </nav>
+    </div>
   );
 };
 

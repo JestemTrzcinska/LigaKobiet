@@ -320,6 +320,55 @@ button {
   margin-right: 0.6rem;
 }
 
+/* Logowanie Rejestracja */
+
+.logowanie1 {
+  position: relative;
+  background: url('./img/showcase3.jpg') no-repeat center center/cover;
+  height: 100vh;
+  text-align: center;
+}
+
+.logowanie2 {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  color: #fff;
+}
+
+.logowanie3 {
+  height: 100%;
+  width: 80%;
+  display: flex;
+
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: auto;
+}
+
+@media (max-width: 499px) {
+  .logowanie3 {
+    display: inline;
+  }
+  .logowanie1 {
+    height: 103%;
+    width: 100%;
+  }
+  .logowanie2 {
+    padding-top: 15vh;
+  }
+  .col1 {
+    padding-top: 7vh;
+  }
+}
+@media (max-width: 270px) {
+  .col1 {
+    padding-top: 3vh;
+  }
+}
+
 /* Overlay */
 .dark-overlay {
   background-color: rgba(0, 0, 0, 0.5);
@@ -328,33 +377,28 @@ button {
   left: 0;
   width: 100%;
   height: 100%;
-  padding-top: 25vh;
   color: #fff;
+}
+
+.darkdark {
+  padding-top: 25vh;
 }
 
 /* Landing Page */
 .landing {
-  position: relative;
+  position: absolute;
+  width: 100%;
+  height: 100%;
   background: url('./img/showcase3.jpg') no-repeat center center/cover;
   height: 100vh;
-  text-align: center;
-}
-
-.landing-inner {
-  position: relative;
-  width: 100%;
-  height: 40%;
-
-  align-items: center;
-  text-align: center;
-  display: flex;
-  margin: auto;
 }
 
 .cards {
-  height: 100%;
-  width: 100%;
+  height: 60%;
+  width: 80%;
   display: flex;
+  margin: auto;
+
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -379,14 +423,20 @@ button {
 .card-third a {
   color: white;
   font-size: 3vh;
-  opacity: 0.8;
 }
 
 .card-first a:hover,
 .card-sec a:hover,
 .card-third a:hover {
-  opacity: 1;
   font-size: 3.5vh;
+}
+
+@media (max-width: 486px) {
+  .cards {
+    display: grid;
+    height: 95%;
+    width: auto;
+  }
 }
 
 /* Profiles Page */

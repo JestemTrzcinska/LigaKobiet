@@ -76,11 +76,8 @@ router.get('/', async (req, res) => {
     const club = await Club.find(req.club);
     if (!club) {
       return res
-        .status(400)
+        .status(404)
         .json({ msg: 'Nie ma ani jednego klubu w bazie danych.' });
-    }
-    if (!club) {
-      return res.status(400).json({ msg: 'Nie ma klubu' });
     }
     res.json(club);
   } catch (err) {

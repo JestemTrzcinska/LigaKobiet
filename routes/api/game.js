@@ -192,10 +192,10 @@ router.post(
 // @access    Public
 router.get('/', async (req, res) => {
   try {
-    const game = await Game.find(req.game);
+    const game = await Game.find().sort({ date: -1 });
     if (!game) {
       return res
-        .status(400)
+        .status(404)
         .json({ msg: 'Nie ma ani jednego meczu w bazie danych.' });
     }
     res.json(game);
@@ -204,6 +204,8 @@ router.get('/', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+// najlepiej opisane w odcinku 21
 
 // // @route     DELETE api/game
 // // @desc      Delete game

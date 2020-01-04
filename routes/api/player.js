@@ -82,7 +82,7 @@ router.get('/', async (req, res) => {
     const player = await Player.find(req.player);
     if (!player) {
       return res
-        .status(400)
+        .status(404)
         .json({ msg: 'Nie ma ani jednej zawodniczki w bazie danych.' });
     }
     res.json(player);

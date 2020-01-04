@@ -45,4 +45,6 @@ const GameSchema = new mongoose.Schema({
   ]
 });
 
+// komentarze, komentarze do komentarzy
+
 module.exports = Game = mongoose.model('game', GameSchema);

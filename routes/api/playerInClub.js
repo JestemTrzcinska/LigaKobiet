@@ -93,7 +93,7 @@ router.get('/', async (req, res) => {
   try {
     const playerInClub = await PlayerInClub.find(req.playerInClub);
     if (!playerInClub) {
-      return res.status(400).json({
+      return res.status(404).json({
         msg:
           'Nie ma ni jednej przynależności zawodniczki z klubem w bazie danych.'
       });
@@ -104,6 +104,8 @@ router.get('/', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+// najlepiej opisane w odcinku 21
 
 // // @route     DELETE api/playerInClub
 // // @desc      Delete playerInClub

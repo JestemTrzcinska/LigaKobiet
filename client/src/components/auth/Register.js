@@ -29,8 +29,8 @@ const Register = ({ setAlert }) => {
 
   return (
     <Fragment>
-      <p className='lead'>
-        <i className='fas fa-user'></i> Stwórz swoje konto
+      <p className='lead redred'>
+        <i className='fas fa-user'></i>Stwórz swoje konto
       </p>
       <form className='form' onSubmit={e => onSubmit(e)}>
         <div className='form-group'>

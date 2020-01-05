@@ -14,11 +14,16 @@
 }
 
 body {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Audiowide', cursive;
   font-size: 1rem;
   line-height: 1.6;
   background-color: #fff;
-  color: #333;
+
+  background-image: url('./img/showcase2.jpg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 a {
@@ -67,32 +72,6 @@ img {
 
 .text-dark {
   color: var(--dark-color);
-}
-
-/* Padding */
-.p {
-  padding: 0.5rem;
-}
-.p-1 {
-  padding: 1rem;
-}
-.p-2 {
-  padding: 2rem;
-}
-.p-3 {
-  padding: 3rem;
-}
-.py {
-  padding: 0.5rem 0;
-}
-.py-1 {
-  padding: 1rem 0;
-}
-.py-2 {
-  padding: 2rem 0;
-}
-.py-3 {
-  padding: 3rem 0;
 }
 
 .alert {
@@ -184,7 +163,7 @@ button {
   z-index: 1;
   width: 100%;
   top: 0;
-  background-color: rgb(8, 5, 22);
+  background-color: rgb(0, 0, 0, 0.6);
 }
 
 .navbar ul {
@@ -201,27 +180,56 @@ button {
   margin-right: 0.6rem;
 }
 
+.btn.nav-item.active.btn {
+  background-color: unset;
+}
+
+.toJestNav {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: auto;
+  padding-right: 20vh;
+}
+
+/* ul.navnav.justify-content-md-center.navbar-nav li {
+  padding-right: 10vh;
+} */
+
+/* .navbar-toggler {
+  background-color: yellow;
+}
+
+.navbar-toggler .navbar-toggler-icon {
+  background-color: white;
+} */
+
+/*  ul.navnav.justify-content-md-center.navbar-nav li {
+    padding-right: 0vh;
+  }
+} */
+
 /* Logowanie Rejestracja */
 
 .logowanie1 {
   position: relative;
-  background: url('./img/showcase2.jpg') no-repeat center center/cover;
-  height: 100vh;
+  height: 100%;
   text-align: center;
 }
 
 .logowanie2 {
-  background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
   height: 100%;
   color: #fff;
+  background-color: rgb(0, 0, 0, 0.6);
+  padding-bottom: 45vh;
 }
 
 .logowanie3 {
   height: 100%;
   width: 80%;
   display: flex;
-
+  padding-top: 20vh;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -240,34 +248,65 @@ button {
   .logowanie2 {
     padding-top: 15vh;
   }
-  .col1 {
-    padding-top: 7vh;
-  }
-}
-@media (max-width: 270px) {
-  .col1 {
-    padding-top: 3vh;
+  .topp {
+    padding-top: 10vh;
   }
 }
 
 /* Overlay */
 .dark-overlay {
-  background-color: rgba(0, 0, 0, 0.5);
-  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   color: #fff;
+  background-color: rgb(0, 0, 0, 0.6);
 }
 
 /* Landing Page */
 .landing {
-  position: absolute;
-  width: 100%;
   height: 100%;
-  background: url('./img/showcase2.jpg') no-repeat center center/cover;
-  height: 100vh;
+  color: white;
+  font-size: 10vh;
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.toptop {
+  padding-top: 35vh;
+  padding-bottom: 55vh;
+}
+
+@media (max-width: 679px) {
+  .toptop {
+    padding-top: 20vh;
+  }
+  .landing {
+    position: relative;
+  }
+}
+
+.redred {
+  color: red;
+}
+
+@media (max-width: 991px) {
+  .toJestNav {
+    padding-right: 0;
+  }
+  .navbar {
+    display: block;
+    text-align: center;
+  }
+}
+
+@media (max-width: 575px) {
+  .navbar {
+    background: black;
+    color: black;
+  }
 }
 
 .btn a {
@@ -290,6 +329,14 @@ button {
   padding-top: 3vh;
 }
 
+.navnav li {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: auto;
+}
+
 .navnav a {
   color: white;
   text-decoration: none;
@@ -301,19 +348,6 @@ a:hover {
 
 .navnavnav {
   padding: 30px;
-}
-
-.landingneeded {
-  color: white;
-  font-family: 'Audiowide', cursive;
-  font-size: 10vh;
-  text-align: center;
-}
-
-@media (max-width: 701px) {
-  .landingneeded {
-    padding-top: 30vh;
-  }
 }
 
 /* Profiles Page */
@@ -470,13 +504,11 @@ a:hover {
     font-size: 2rem;
   }
 
-  .lead {
-    font-size: 1rem;
-  }
-
   /* Navbar */
   .navbar {
     display: block;
+    background-color: rgb(0, 0, 0, 0.6);
+
     text-align: center;
   }
 

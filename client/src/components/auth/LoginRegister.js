@@ -11,7 +11,7 @@ const LoginRegister = () => {
           <Col>
             <Login />
           </Col>
-          <Col>
+          <Col className='topp'>
             <Register />
           </Col>
         </div>

@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -45,7 +44,8 @@ const Login = () => {
         <input type='submit' className='btn btn-primary' value='Potwierdź' />
       </form>
       <p className='my-1'>
-        Nie masz jeszcze konta? <Link to='/register'>Zarejestruj się</Link>
+        Nie posiadasz jeszcze konta? Stwórz je!
+        {/* <Link to='/register'>Zarejestruj się</Link> */}
       </p>
     </Fragment>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Col, Row, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 const Navbar = () => {
   return (
@@ -20,15 +20,15 @@ const Navbar = () => {
         <div className='toJestNav'>
           <ul className='navnav justify-content-md-center navbar-nav'>
             <li className='btn-lg nav-item' xs lg='5'>
-              <Button className='nav-item active'>
+              <Button className='nav-item active bordernone'>
                 <Link to='/stats' className='navnavnav'>
                   Statystyki
                 </Link>
               </Button>
-              <Button className='nav-item active'>
+              <Button className='nav-item active bordernone'>
                 <Link to='/calendar'>Harmonogram</Link>
               </Button>
-              <Button className='nav-item active'>
+              <Button className='nav-item active bordernone'>
                 <Link to='/news' className='navnavnav'>
                   Aktualności
                 </Link>

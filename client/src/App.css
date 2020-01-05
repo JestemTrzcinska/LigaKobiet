@@ -90,6 +90,10 @@ img {
   color: #fff;
 }
 
+.alert.alert-danger {
+  margin: 1px;
+}
+
 /* Forms */
 .form .form-group {
   margin: 1.2rem 0;
@@ -184,6 +188,10 @@ button {
   background-color: unset;
 }
 
+.bordernone {
+  border: none;
+}
+
 .toJestNav {
   align-items: center;
   justify-content: center;
@@ -222,7 +230,7 @@ button {
   height: 100%;
   color: #fff;
   background-color: rgb(0, 0, 0, 0.6);
-  padding-bottom: 45vh;
+  padding-bottom: 30vh;
 }
 
 .logowanie3 {
@@ -276,7 +284,7 @@ button {
 
 .toptop {
   padding-top: 35vh;
-  padding-bottom: 55vh;
+  padding-bottom: 35vh;
 }
 
 @media (max-width: 679px) {

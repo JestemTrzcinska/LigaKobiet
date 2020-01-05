@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
+import { register } from '../../actions/auth';
 import PropTypes from 'prop-types';
 
-const Register = ({ setAlert }) => {
+const Register = ({ setAlert, register }) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -23,7 +23,7 @@ const Register = ({ setAlert }) => {
     if (password !== password2) {
       setAlert('Hasła nie są takie same', 'danger');
     } else {
-      console.log('SUCCESS');
+      register({ firstName, lastName, email, password });
     }
   };
 
@@ -40,7 +40,6 @@ const Register = ({ setAlert }) => {
             name='firstName'
             value={firstName}
             onChange={e => onChange(e)}
-            required
           />
         </div>
         <div className='form-group'>
@@ -50,7 +49,6 @@ const Register = ({ setAlert }) => {
             name='lastName'
             value={lastName}
             onChange={e => onChange(e)}
-            required
           />
         </div>
         <div className='form-group'>
@@ -60,7 +58,6 @@ const Register = ({ setAlert }) => {
             name='email'
             value={email}
             onChange={e => onChange(e)}
-            required
           />
         </div>
         <div className='form-group'>
@@ -70,7 +67,6 @@ const Register = ({ setAlert }) => {
             name='password'
             value={password}
             onChange={e => onChange(e)}
-            minLength='6'
           />
         </div>
         <div className='form-group'>
@@ -80,23 +76,23 @@ const Register = ({ setAlert }) => {
             name='password2'
             value={password2}
             onChange={e => onChange(e)}
-            minLength='6'
           />
         </div>
         <input type='submit' className='btn btn-primary' value='Potwierdź' />
       </form>
-      <p className='my-1'>
+      {/* <p className='my-1'>
         Posiadasz już konto? <Link to='/login'>Zaloguj się</Link>
-      </p>
+      </p> */}
     </Fragment>
   );
 };
 
 Register.propTypes = {
-  setAlert: PropTypes.func.isRequired
+  setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired
 };
 
-export default connect(null, { setAlert })(Register);
+export default connect(null, { setAlert, register })(Register);
 
 //else axios needed
 //   const newUser = {

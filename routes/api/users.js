@@ -14,16 +14,16 @@ const User = require('../../models/User');
 router.post(
   '/',
   [
-    check('firstName', 'Imię jest wymagane.')
+    check('firstName', 'Jak masz na imię?')
       .not()
       .isEmpty(),
-    check('lastName', 'Nazwisko jest wymagane.')
+    check('lastName', 'Jak masz na nazwisko?')
       .not()
       .isEmpty(),
-    check('email', 'Proszę podaj prawidłowego maila.').isEmail(),
+    check('email', 'Proszę o podanie prawidłowego maila.').isEmail(),
     check(
       'password',
-      'Wprowadź hasło z ilością znaków większą niż 6.'
+      'Wprowadź kombinację przynajmniej sześciu cyfr, liter i znaków interpunktycjnych.'
     ).isLength({ min: 6 })
   ],
   async (req, res) => {

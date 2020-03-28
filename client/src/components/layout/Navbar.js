@@ -1,8 +1,32 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { logout } from '../../actions/auth';
 
-const Navbar = () => {
+const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+  const authLinks = (
+    <li xs lg='5'>
+      <Button className='btn-warning nav-item active'>
+        <Link onClick={logout} to='/#!'>
+          Wyloguj się
+        </Link>
+      </Button>
+    </li>
+  );
+
+  const guestLinks = (
+    <li xs lg='5'>
+      <Button className='btn-danger nav-item active'>
+        <Link to='/loginregister'>Logowanie/Rejestracja</Link>
+      </Button>
+      {/* Jeżeli chcę schować napis na urządzeniach i zostawić tylko emotkę to:
+      <Button><Link><span className="hide-sm">Logowanie/Rejestracja</span></Link></Button>
+      */}
+    </li>
+  );
+
   return (
     <nav className='navbar navbar-expand-lg navbar-dark'>
       <button
@@ -39,11 +63,10 @@ const Navbar = () => {
                 <Link to='/'>Liga Kobiet</Link>
               </h1>
             </li>
-            <li xs lg='5'>
-              <Button className='btn-danger nav-item active'>
-                <Link to='/loginregister'>Logowanie/Rejestracja</Link>
-              </Button>
-            </li>
+            {!loading && (
+              <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
+            )}
+            {/* { !loading ? '' : null } jeżeli nie to '' else null, to samo jest wyżej*/}
           </ul>
         </div>
       </div>
@@ -51,7 +74,16 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+Navbar.propTypes = {
+  logout: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, { logout })(Navbar);
 
 // <div className='collapse navbar-collapse' id='navbarNav'>
 // <div className='dark-overlay'>

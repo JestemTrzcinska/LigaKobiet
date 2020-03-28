@@ -308,10 +308,10 @@ button {
 }
 
 @media (max-width: 575px) {
-  .navbar {
+  /* .navbar {
     background: black;
     color: black;
-  }
+  } */
 }
 
 .btn a {

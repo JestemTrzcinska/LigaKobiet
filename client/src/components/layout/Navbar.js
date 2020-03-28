@@ -26,7 +26,7 @@ const Navbar = () => {
                 </Link>
               </Button>
               <Button className='nav-item active bordernone'>
-                <Link to='/calendar'>Harmonogram</Link>
+                <Link to='/schedule'>Harmonogram</Link>
               </Button>
               <Button className='nav-item active bordernone'>
                 <Link to='/news' className='navnavnav'>

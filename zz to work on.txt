@@ -1,3 +1,11 @@
 actions/auth
 logout / clear Profile
 line 96
+
+layout/Landing
+jeżeli jesteśmy zalogowani to po klikięciu "Liga Kobiet" nie pokazuje się strona startowa, pomyśl o tym gdzie chcesz by wyrzucało użytkownika, na pewno nie do schedule GŁÓWNA ZE WSZYSTKIM, narazie schedule
+
+opcjonalne wypełnianie: pstryczek, że jak klikasz to się pojawia więcej rzeczy do wpisania w form 047 5:00-7:40, on uzywa w CreateProfile
+
+w Profile jest favClub i lokalizacja, którą można wziąć z bazy i npm jakiegoś.
+profile-forms CreateProfile

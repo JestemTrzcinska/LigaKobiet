@@ -1,17 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getGames } from '../../actions/game';
 
-const Schedule = props => {
+const Schedule = ({ getGames, game }) => {
+  useEffect(() => {
+    getGames();
+  }, [getGames]);
   return (
-    <div>
+    <div className='beginning'>
       <h4>Schedule</h4>Schedule
     </div>
   );
 };
 
-Schedule.propTypes = {};
+Schedule.propTypes = {
+  getGames: PropTypes.func.isRequired,
+  game: PropTypes.object.isRequired
+};
 
-export default Schedule;
+const mapStateToProps = state => ({
+  game: state.game
+});
+
+export default connect(mapStateToProps, { getGames })(Schedule);
 
 // import React from 'react';
 // import { Col } from 'react-bootstrap';

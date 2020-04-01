@@ -18,12 +18,17 @@ body {
   font-size: 1rem;
   line-height: 1.6;
   background-color: #fff;
+  color: white;
 
   background-image: url('./img/showcase2.jpg');
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
+}
+
+.beginning {
+  padding: 10vh 6vh;
 }
 
 a {
@@ -223,7 +228,6 @@ button {
 .logowanie2 {
   width: 100%;
   height: 100%;
-  color: #fff;
 }
 
 .logowanie3 {
@@ -266,7 +270,6 @@ button {
 /* Landing Page */
 .landing {
   height: 100%;
-  color: white;
   font-size: 10vh;
   margin: auto;
   align-items: center;
@@ -314,10 +317,6 @@ button {
   } */
 }
 
-.btn a {
-  color: white;
-}
-
 .btn a:hover {
   text-decoration: none;
 }
@@ -343,7 +342,6 @@ button {
 }
 
 .navnav a {
-  color: white;
   text-decoration: none;
 }
 

@@ -8,6 +8,11 @@ import { logout } from '../../actions/auth';
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <li xs lg='5'>
+      <Button className='nav-item active bordernone'>
+        <Link to='/dashboard'>
+          Profile <i className='fa fa-user' />
+        </Link>
+      </Button>
       <Button className='btn-warning nav-item active'>
         <Link onClick={logout} to='/#!'>
           Wyloguj się

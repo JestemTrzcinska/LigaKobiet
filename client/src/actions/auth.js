@@ -2,12 +2,13 @@ import axios from 'axios';
 import { setAlert } from './alert';
 import {
   REGISTER_SUCCESS,
-  REGISTER_FAIL,  
+  REGISTER_FAIL,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOGOUT
+  LOGOUT,
+  CLEAR_PROFILE
 } from './types';
 import setAuthToken from '../utils/setAuthToken';
 
@@ -50,7 +51,6 @@ export const register = ({
     });
 
     dispatch(loadUser());
-
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -60,12 +60,8 @@ export const register = ({
   }
 };
 
-
 // Login User
-export const login = (
-  email,
-  password
-) => async dispatch => {
+export const login = (email, password) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -81,7 +77,6 @@ export const login = (
     });
 
     dispatch(loadUser());
-
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -93,8 +88,9 @@ export const login = (
   }
 };
 
-// logout / Clear Profile ??????????????????
+// logout / Clear Profile
 
 export const logout = () => dispatch => {
-  dispatch({ type:LOGOUT });
-}
+  dispatch({ type: CLEAR_PROFILE });
+  dispatch({ type: LOGOUT });
+};

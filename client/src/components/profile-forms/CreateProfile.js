@@ -9,15 +9,15 @@ const CreateProfile = ({ createProfile, history }) => {
     favClub: '',
     contact: '',
     localization: '',
-    about: ''
+    about: '',
   });
 
   const { favClub, contact, localization, about } = formData;
 
-  const onChange = e =>
+  const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     createProfile(formData, history);
   };
@@ -25,9 +25,9 @@ const CreateProfile = ({ createProfile, history }) => {
   return (
     <div className='beginning'>
       <Fragment>
-        <form className='form' onSubmit={e => onSubmit(e)}>
-          <p className='lead redred'>
-            <i className='fas fa-user'></i>Uzupełnij swój profil
+        <form className='form' onSubmit={(e) => onSubmit(e)}>
+          <p className='lead'>
+            <i className='fas fa-user'></i> Uzupełnij swój profil
           </p>
           <div className='form-group'>
             <input
@@ -35,7 +35,7 @@ const CreateProfile = ({ createProfile, history }) => {
               placeholder='Twój ulubiony klub'
               name='favClub'
               value={favClub}
-              onChange={e => onChange(e)}
+              onChange={(e) => onChange(e)}
             />
           </div>
           <div className='form-group'>
@@ -44,7 +44,7 @@ const CreateProfile = ({ createProfile, history }) => {
               placeholder='Miejsce zamieszkania'
               name='localization'
               value={localization}
-              onChange={e => onChange(e)}
+              onChange={(e) => onChange(e)}
             />
           </div>
           <div className='form-group'>
@@ -53,7 +53,7 @@ const CreateProfile = ({ createProfile, history }) => {
               placeholder='Powiedz coś o sobie:'
               name='about'
               value={about}
-              onChange={e => onChange(e)}
+              onChange={(e) => onChange(e)}
             />
           </div>
           <div className='form-group'>
@@ -62,7 +62,7 @@ const CreateProfile = ({ createProfile, history }) => {
               placeholder='Kontakt do Ciebie'
               name='contact'
               value={contact}
-              onChange={e => onChange(e)}
+              onChange={(e) => onChange(e)}
             />
           </div>
           <input type='submit' className='btn btn-primary' value='Potwierdź' />
@@ -73,7 +73,7 @@ const CreateProfile = ({ createProfile, history }) => {
 };
 
 CreateProfile.propTypes = {
-  createProfile: PropTypes.func.isRequired
+  createProfile: PropTypes.func.isRequired,
 };
 
 export default connect(null, { createProfile })(withRouter(CreateProfile)); // with to history

@@ -10,7 +10,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
     <li xs lg='5'>
       <Button className='nav-item active bordernone'>
         <Link to='/dashboard'>
-          Profile <i className='fa fa-user' />
+          Mój profil <i className='fa fa-user' />
         </Link>
       </Button>
       <Button className='btn-warning nav-item active'>
@@ -81,11 +81,11 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 
 Navbar.propTypes = {
   logout: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { logout })(Navbar);

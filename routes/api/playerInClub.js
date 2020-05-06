@@ -12,15 +12,9 @@ const PlayerInClub = require('../../models/PlayerInClub');
 router.post(
   '/',
   [
-    check('from', 'Podanie daty początkowej jest wymagane.')
-      .not()
-      .isEmpty(),
-    check('club', 'Podanie nazwy ligi jest wymagane.')
-      .not()
-      .isEmpty(),
-    check('player', 'Podanie danych zawodnika jest wymagane.')
-      .not()
-      .isEmpty()
+    check('from', 'Podanie daty początkowej jest wymagane.').not().isEmpty(),
+    check('club', 'Podanie nazwy ligi jest wymagane.').not().isEmpty(),
+    check('player', 'Podanie danych zawodnika jest wymagane.').not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -33,7 +27,7 @@ router.post(
     try {
       // See if club is it db
       const clubDB = await Club.findOne({
-        name: club
+        name: club,
       });
       if (!clubDB) {
         return res
@@ -42,13 +36,13 @@ router.post(
       }
 
       // See if player is it db
-      const playerFirstNameReq = player[0].firstName;
-      const playerLastNameReq = player[1].lastName;
-      const playerNameReq = player[2].name;
+      const playerFirstNameReq = player[0];
+      const playerLastNameReq = player[1];
+      const playerNameReq = player[2];
       const playerDB = await Player.findOne({
         firstName: playerFirstNameReq,
         lastName: playerLastNameReq,
-        name: playerNameReq
+        name: playerNameReq,
       });
       if (!playerDB) {
         return res
@@ -60,7 +54,7 @@ router.post(
       let PICdb = await PlayerInClub.findOne({ from, clubDB, playerDB });
       if (PICdb) {
         return res.status(400).json({
-          errors: [{ msg: 'Taki powiązanie istnieje już w bazie.' }]
+          errors: [{ msg: 'Taki powiązanie istnieje już w bazie.' }],
         });
       }
 
@@ -95,7 +89,7 @@ router.get('/', async (req, res) => {
     if (!playerInClub) {
       return res.status(404).json({
         msg:
-          'Nie ma ni jednej przynależności zawodniczki z klubem w bazie danych.'
+          'Nie ma ni jednej przynależności zawodniczki z klubem w bazie danych.',
       });
     }
     res.json(playerInClub);

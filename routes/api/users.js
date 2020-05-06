@@ -14,17 +14,13 @@ const User = require('../../models/User');
 router.post(
   '/',
   [
-    check('firstName', 'Jak masz na imię?')
-      .not()
-      .isEmpty(),
-    check('lastName', 'Jak masz na nazwisko?')
-      .not()
-      .isEmpty(),
+    check('firstName', 'Proszę o podanie swojego imienia').not().isEmpty(),
+    check('lastName', 'Proszę o podanie swojeho nazwiska.').not().isEmpty(),
     check('email', 'Proszę o podanie prawidłowego maila.').isEmail(),
     check(
       'password',
       'Wprowadź kombinację przynajmniej sześciu cyfr, liter i znaków interpunktycjnych.'
-    ).isLength({ min: 6 })
+    ).isLength({ min: 6 }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -39,7 +35,7 @@ router.post(
       let user = await User.findOne({ email });
       if (user) {
         return res.status(400).json({
-          errors: [{ msg: 'Użytkownik o podanym emailu już istnieje.' }]
+          errors: [{ msg: 'Użytkownik o podanym emailu już istnieje.' }],
         });
       }
 
@@ -47,7 +43,7 @@ router.post(
       const avatar = gravatar.url(email, {
         s: '200', // size
         r: 'pg', // reading; cant be naked people
-        d: 'mm' // default; user icon when he doesnt have one
+        d: 'mm', // default; user icon when he doesnt have one
       });
 
       user = new User({
@@ -55,7 +51,7 @@ router.post(
         lastName,
         email,
         avatar,
-        password
+        password,
       });
 
       // Encrypt password
@@ -66,8 +62,8 @@ router.post(
       // Return jsonwebtoken
       const payload = {
         user: {
-          id: user.id
-        }
+          id: user.id,
+        },
       };
       jwt.sign(
         payload,

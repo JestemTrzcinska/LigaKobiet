@@ -3,9 +3,27 @@ logout / clear Profile
 line 96
 
 layout/Landing
-jeżeli jesteśmy zalogowani to po klikięciu "Liga Kobiet" nie pokazuje się strona startowa, pomyśl o tym gdzie chcesz by wyrzucało użytkownika, na pewno nie do schedule GŁÓWNA ZE WSZYSTKIM, narazie schedule
+jeżeli jesteśmy zalogowani to po klikięciu "Liga Kobiet" nie pokazuje się strona startowa, pomyśl o tym gdzie chcesz by wyrzucało użytkownika, na pewno nie do schedule GŁÓWNA ZE WSZYSTKIM (taki panel - najbliższe mecze, ranking użytkowników, tabela ulubionej drużyny), narazie schedule
 
-opcjonalne wypełnianie: pstryczek, że jak klikasz to się pojawia więcej rzeczy do wpisania w form 047 5:00-7:40, on uzywa w CreateProfile
+wideo - opcjonalne wypełnianie: pstryczek, że jak klikasz to się pojawia więcej rzeczy do wpisania w form 047 5:00-7:40, on uzywa w CreateProfile
 
 w Profile jest favClub i lokalizacja, którą można wziąć z bazy i npm jakiegoś.
 profile-forms CreateProfile
+
+
+BAZA DANYCH
+TeamHome - TeamAway nie powtórzy się w ciągu rundy!!!!!!
+będzie trzeba zrobić sprawdzenie routes/api/game.js
+kiedy podział mistrzowska/spadkowa się zaczyna (!)
+
+użytkownika kontakt to żart, zmień to
+
+w CreateProfile nie ma powiadomień że źle się podało drużynę, dać listę rozwijaną z drużynami
+
+Użytkownicy - role - uprawnienia
+
+User ma Date.now jako date utworzenia, niestety GMT-1
+
+# komentarze, komentarze do komentarzy w Meczach
+# zapisywanie modyfikacji użytkowników + (mających role)
+# jak komentarze to powiadomienia

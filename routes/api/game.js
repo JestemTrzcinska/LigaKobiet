@@ -19,9 +19,8 @@ router.post(
     check('teamAway', 'Podanie nazwy drużyny gości jest wymagane.')
       .not()
       .isEmpty(),
-    check('league', 'Podanie nazwy ligi jest wymagane.')
-      .not()
-      .isEmpty()
+    check('league', 'Podanie nazwy ligi jest wymagane.').not().isEmpty(),
+    check('date', 'Prosze o podanie daty meczu.').not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -34,7 +33,7 @@ router.post(
     try {
       // See if teamHome exists
       const teamHomeFromDB = await Club.findOne({
-        name: teamHome
+        name: teamHome,
       });
       if (!teamHomeFromDB) {
         return res
@@ -44,7 +43,7 @@ router.post(
 
       // See if teamAway exists
       const teamAwayFromDB = await Club.findOne({
-        name: teamAway
+        name: teamAway,
       });
       if (!teamAwayFromDB) {
         return res
@@ -52,24 +51,32 @@ router.post(
           .json({ msg: `Taki klub ${teamAway} nie istnieje w bazie danych.` });
       }
 
+      // See if teams are not the same
+      if (teamAwayFromDB.id === teamHomeFromDB.id) {
+        return res.status(400).json({
+          msg:
+            'Dwie takie same drużyny nie mogą grać ze sobą oficjalnego meczu. Proszę o wprowadzenie poprawnych danych.',
+        });
+      }
+
       // See if the Game already exists
       const gameDB = await Game.findOne({
         teamHome: teamHomeFromDB.id,
         teamAway: teamAwayFromDB.id,
         localization,
-        date: date
+        date: date,
       });
 
       if (gameDB) {
         return res.status(400).json({
-          errors: [{ msg: 'Taki mecz jest już w bazie.' }]
+          errors: [{ msg: 'Taki mecz jest już w bazie.' }],
         });
       }
 
       // See if league exists
       const leagueFromRequest = league;
       const leagueFromDB = await League.findOne({
-        name: leagueFromRequest
+        name: leagueFromRequest,
       });
       if (!leagueFromDB) {
         return res
@@ -94,7 +101,7 @@ router.post(
             leagueFromDB.from
           ).format('DD-MM-YYYY')} a ${moment(leagueFromDB.to).format(
             'DD-MM-YYYY'
-          )}`
+          )}`,
         });
       }
 
@@ -112,6 +119,25 @@ router.post(
               .json({ msg: 'Podanie ilości goli jest obowiązkowe.' });
           }
 
+          // shotBy
+          if (!goals[i].shotBy)
+            return res.status(400).json({
+              msg: 'Podanie informacji kto strzelił jest obowiązkowe.',
+            });
+
+          // See if player in teamHome or teamAway exists
+          const playerFirstNameReq = goals[i].shotBy[0];
+          const playerLastNameReq = goals[i].shotBy[1];
+          const playerFromDB = await Player.findOne({
+            firstName: playerFirstNameReq,
+            lastName: playerLastNameReq,
+          });
+
+          if (!playerFromDB)
+            return res
+              .status(400)
+              .json({ msg: 'Taka zawodniczka nie istnieje w bazie danych.' });
+
           // goal for who t.b.c.
           if (
             goals[i].goalForTeamHome == true ||
@@ -120,47 +146,42 @@ router.post(
             goalsPreparedForGameFields.goalForTeamHome =
               goals[i].goalForTeamHome;
           else
-            return res
-              .status(400)
-              .json({ msg: 'Podanie tej informacji jest obowiązkowe..' });
-
-          // shotBy
-          if (!goals[i].shotBy)
             return res.status(400).json({
-              msg: 'Podanie informacji kto strzelił jest obowiązkowe.'
+              msg: `Podanie informacji, dla kogo zostały bramki zdobyte przez zawodnika ${playerFromDB.firstName} ${playerFromDB.lastName} jest obowiązkowe.`,
             });
-
-          // See if player in teamHome or teamAway exists
-          const playerFirstNameReq = goals[i].shotBy[0].firstName;
-          const playerLastNameReq = goals[i].shotBy[1].lastName;
-          const playerFromDB = await Player.findOne({
-            firstName: playerFirstNameReq,
-            lastName: playerLastNameReq
-          });
-          if (!playerFromDB)
-            return res
-              .status(400)
-              .json({ msg: 'Taka zawodniczka nie istnieje w bazie danych.' });
 
           let playerInClubEqualPlayerThatShoot;
 
-          if (goals[i].goalForTeamHome == true) {
+          if (goals[i].goalForTeamHome == true && goals[i].isOwn == true) {
             playerInClubEqualPlayerThatShoot = await PlayerInClub.findOne({
               player: playerFromDB,
-              club: teamHomeFromDB
+              club: teamAwayFromDB,
+            });
+          }
+          if (goals[i].goalForTeamHome == true && goals[i].isOwn == false) {
+            playerInClubEqualPlayerThatShoot = await PlayerInClub.findOne({
+              player: playerFromDB,
+              club: teamHomeFromDB,
+            });
+          }
+          if (goals[i].goalForTeamHome == false && goals[i].isOwn == false) {
+            playerInClubEqualPlayerThatShoot = await PlayerInClub.findOne({
+              player: playerFromDB,
+              club: teamAwayFromDB,
+            });
+          }
+          if (goals[i].goalForTeamHome == false && goals[i].isOwn == true) {
+            playerInClubEqualPlayerThatShoot = await PlayerInClub.findOne({
+              player: playerFromDB,
+              club: teamHomeFromDB,
             });
           }
 
-          if (goals[i].goalForTeamHome == false) {
-            playerInClubEqualPlayerThatShoot = await PlayerInClub.findOne({
-              player: playerFromDB,
-              club: teamAwayFromDB
-            });
-          }
+          console.log(teamHomeFromDB);
 
           if (!playerInClubEqualPlayerThatShoot)
             return res.status(400).json({
-              msg: `Zawodniczka o nazwisku: ${playerFromDB.lastName} nie bierze udziału w tym meczu lub nie strzeliła dla swojej drużyny. Jeżeli był to samobój zaznacz poniżej "Samobój".`
+              msg: `Zawodniczka o nazwisku: ${playerFromDB.lastName} nie bierze udziału w tym meczu. Pamiętaj! Jeżeli był to samobój zaznacz poniżej "Samobój".`,
             });
 
           goalsPreparedForGameFields.shotBy = playerFromDB;

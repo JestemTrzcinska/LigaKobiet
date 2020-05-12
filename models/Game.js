@@ -3,46 +3,47 @@ const mongoose = require('mongoose');
 const GameSchema = new mongoose.Schema({
   teamHome: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'club'
+    ref: 'club',
   },
   teamAway: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'club'
+    ref: 'club',
   },
   league: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'league'
+    ref: 'league',
   },
   localization: {
-    type: String
+    type: String,
   },
   date: {
-    type: Date
+    type: Date,
+    required: true,
   },
   goals: [
     {
       amount: {
         type: Number,
         min: 0,
-        required: true
+        required: true,
       },
       goalForTeamHome: {
         type: Boolean,
         default: true,
-        required: true
+        required: true,
       },
       shotBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'player',
-        required: true
+        required: true,
       },
       isOwn: {
         type: Boolean,
-        default: false
+        default: false,
       },
-      required: false
-    }
-  ]
+      required: false,
+    },
+  ],
 });
 
 // komentarze, komentarze do komentarzy

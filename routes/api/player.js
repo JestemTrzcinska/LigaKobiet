@@ -11,12 +11,8 @@ const Player = require('../../models/Player');
 router.post(
   '/',
   [
-    check('firstName', 'Imię zawodniczki jest wymagane.')
-      .not()
-      .isEmpty(),
-    check('lastName', 'Nazwisko zawodniczki jest wymagane.')
-      .not()
-      .isEmpty()
+    check('firstName', 'Imię zawodniczki jest wymagane.').not().isEmpty(),
+    check('lastName', 'Nazwisko zawodniczki jest wymagane.').not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -39,12 +35,11 @@ router.post(
         firstName,
         lastName,
         name,
-        birth
+        birth,
       });
       if (playerDB) {
         return res.status(400).json({
-          msg:
-            'Taka zawodnika już istnieje w bazie danych. Jezli chodzi o inną spróbuj ponowanie uzupełniając datę urodzenia'
+          msg: `Taka zawodnika już istnieje w bazie danych. Jeżeli chodzi o inną niż ta w bazie - spróbuj ponowanie uzupełniając poprawną datę urodzenia`,
         });
       }
 
@@ -52,7 +47,7 @@ router.post(
       avatar = gravatar.url({
         s: '200', // size
         r: 'pg', // reading; cant be naked people
-        d: 'mm' // default; user icon when he doesnt have one
+        d: 'mm', // default; user icon when he doesnt have one
       });
 
       const player = new Player({
@@ -60,7 +55,7 @@ router.post(
         lastName,
         name,
         avatar,
-        birth
+        birth,
       });
 
       await player.save();

@@ -11,8 +11,10 @@ const Profile = require('../../models/Profile');
 router.get('/me', auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({
-      user: req.user.id
-    }).populate('user', ['firstName', 'lastName', 'avatar']);
+      user: req.user.id,
+    })
+      .populate('user', ['firstName', 'lastName', 'avatar'])
+      .populate('favClub');
 
     if (!profile) {
       return res.status(400).json({ msg: 'Ten użytkownik nie ma profilu' });
@@ -45,18 +47,19 @@ router.post('/', [auth], async (req, res) => {
 
   if (favClub) {
     const clubFromDB = await Club.findOne({
-      name: favClub
+      name: favClub,
     });
     if (!clubFromDB) {
       return res
         .status(400)
         .json({ msg: 'Klub o takiej nazwie nie istnieje w bazie danych.' });
     }
-    profileFields.favClub = clubFromDB;
+    profileFields.favClub = clubFromDB.id;
   }
 
   try {
     let profile = await Profile.findOne({ user: req.user.id });
+    console.log(req.user.id);
 
     if (profile) {
       // Update
@@ -65,6 +68,7 @@ router.post('/', [auth], async (req, res) => {
         { $set: profileFields },
         { new: true }
       );
+
       return res.json(profile);
     }
 
@@ -84,11 +88,9 @@ router.post('/', [auth], async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const profiles = await Profile.find().populate('user', [
-      'firstName',
-      'lastName',
-      'avatar'
-    ]);
+    const profiles = await Profile.find()
+      .populate('user', ['firstName', 'lastName', 'avatar'])
+      .populate('favClub');
     res.json(profiles);
   } catch (err) {
     console.error(err.message);
@@ -103,8 +105,10 @@ router.get('/', async (req, res) => {
 router.get('/user/:userID', async (req, res) => {
   try {
     const profile = await Profile.findOne({
-      user: req.params.userID
-    }).populate('user', ['firstName', 'lastName', 'avatar']);
+      user: req.params.userID,
+    })
+      .populate('user', ['firstName', 'lastName', 'avatar'])
+      .populate('favClub');
 
     if (!profile) return res.status(400).json({ msg: 'Profile not found' });
     res.json(profile);

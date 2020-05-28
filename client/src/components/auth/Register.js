@@ -11,15 +11,15 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     lastName: '',
     email: '',
     password: '',
-    password2: ''
+    password2: '',
   });
 
   const { firstName, lastName, email, password, password2 } = formData;
 
-  const onChange = e =>
+  const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     if (password !== password2) {
       setAlert('Hasła nie są takie same', 'danger');
@@ -28,24 +28,24 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     }
   };
 
-    // Redirect if registered
-    if(isAuthenticated) {
-      return <Redirect to="/schedule"/>
-    }
+  // Redirect if registered
+  if (isAuthenticated) {
+    return <Redirect to='/schedule' />;
+  }
 
   return (
     <Fragment>
       <p className='lead redred'>
         <i className='fas fa-user'></i>Stwórz swoje konto
       </p>
-      <form className='form' onSubmit={e => onSubmit(e)}>
+      <form className='form' onSubmit={(e) => onSubmit(e)}>
         <div className='form-group'>
           <input
             type='text'
             placeholder='Imię'
             name='firstName'
             value={firstName}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
         </div>
         <div className='form-group'>
@@ -54,7 +54,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             placeholder='Nazwisko'
             name='lastName'
             value={lastName}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
         </div>
         <div className='form-group'>
@@ -63,7 +63,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             placeholder='Email'
             name='email'
             value={email}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
         </div>
         <div className='form-group'>
@@ -72,7 +72,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             placeholder='Hasło'
             name='password'
             value={password}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
         </div>
         <div className='form-group'>
@@ -81,7 +81,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             placeholder='Potwierdź hasło'
             name='password2'
             value={password2}
-            onChange={e => onChange(e)}
+            onChange={(e) => onChange(e)}
           />
         </div>
         <input type='submit' className='btn btn-primary' value='Potwierdź' />
@@ -96,12 +96,12 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
 };
 
-const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
-})
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
 
 export default connect(mapStateToProps, { setAlert, register })(Register);
 

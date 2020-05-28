@@ -13,6 +13,13 @@
   padding: 0;
 }
 
+.white {
+  color: #fff;
+}
+.white:hover {
+  color: #fff;
+}
+
 body {
   font-family: 'Audiowide', cursive;
   font-size: 1rem;
@@ -28,7 +35,7 @@ body {
 }
 
 .beginning {
-  padding: 10vh 6vh;
+  padding: 10vh 15vh;
 }
 
 a {

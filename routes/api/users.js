@@ -15,11 +15,11 @@ router.post(
   '/',
   [
     check('firstName', 'Proszę o podanie swojego imienia').not().isEmpty(),
-    check('lastName', 'Proszę o podanie swojeho nazwiska.').not().isEmpty(),
+    check('lastName', 'Proszę o podanie swojego nazwiska.').not().isEmpty(),
     check('email', 'Proszę o podanie prawidłowego maila.').isEmail(),
     check(
       'password',
-      'Wprowadź kombinację przynajmniej sześciu cyfr, liter i znaków interpunktycjnych.'
+      'Słabe hasło! Wprowadź kombinację przynajmniej sześciu liter i cyfr.' // i znaków interpunktycjnych.'
     ).isLength({ min: 6 }),
   ],
   async (req, res) => {

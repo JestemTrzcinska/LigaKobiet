@@ -68,6 +68,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
                 <Link to='/'>Liga Kobiet</Link>
               </h1>
             </li>
+
             {!loading && (
               <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
             )}

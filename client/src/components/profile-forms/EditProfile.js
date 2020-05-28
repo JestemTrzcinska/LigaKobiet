@@ -1,16 +1,33 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createProfile } from '../../actions/profile';
+import { createProfile, getCurrentProfile } from '../../actions/profile';
 
-const CreateProfile = ({ createProfile, history }) => {
+const EditProfile = ({
+  profile: { profile, loading },
+  createProfile,
+  getCurrentProfile,
+  history,
+}) => {
   const [formData, setFormData] = useState({
     favClub: '',
     contact: '',
     localization: '',
     about: '',
   });
+
+  useEffect(() => {
+    getCurrentProfile();
+
+    setFormData({
+      favClub: loading || !profile.favClub.name ? '' : profile.favClub.name,
+      contact: loading || !profile.contact ? '' : profile.contact,
+      localization:
+        loading || !profile.localization ? '' : profile.localization,
+      about: loading || !profile.about ? '' : profile.about,
+    });
+  }, [loading]);
 
   const { favClub, contact, localization, about } = formData;
 
@@ -19,7 +36,7 @@ const CreateProfile = ({ createProfile, history }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createProfile(formData, history);
+    createProfile(formData, history, true);
   };
 
   return (
@@ -27,7 +44,7 @@ const CreateProfile = ({ createProfile, history }) => {
       <Fragment>
         <form className='form' onSubmit={(e) => onSubmit(e)}>
           <p className='lead'>
-            <i className='fas fa-user'></i> Uzupełnij swój profil
+            <i className='fas fa-user'></i> Edytuj swój profil
           </p>
           <div className='form-group'>
             <small className='form-text'>Twój ulubiony klub:</small>
@@ -41,6 +58,7 @@ const CreateProfile = ({ createProfile, history }) => {
           </div>
           <div className='form-group'>
             <small className='form-text'>Miejsce zamieszkania:</small>
+
             <input
               type='text'
               placeholder='Miejsce zamieszkania'
@@ -79,8 +97,16 @@ const CreateProfile = ({ createProfile, history }) => {
   );
 };
 
-CreateProfile.propTypes = {
+EditProfile.propTypes = {
   createProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
-export default connect(null, { createProfile })(withRouter(CreateProfile)); // with to history
+const mapStateToProps = (state) => ({
+  profile: state.profile,
+});
+
+export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
+  withRouter(EditProfile)
+); // with to history

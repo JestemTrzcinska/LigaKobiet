@@ -10,6 +10,9 @@ wideo - opcjonalne wypełnianie: pstryczek, że jak klikasz to się pojawia wię
 w Profile jest favClub i lokalizacja, którą można wziąć z bazy i npm jakiegoś.
 profile-forms CreateProfile
 
+FRONT
+żeby najpierw usuwał alert a potem przerzucał na inną stronę (Register linijka 26)
+
 
 BAZA DANYCH
 TeamHome - TeamAway nie powtórzy się w ciągu rundy!!!!!!
@@ -27,3 +30,7 @@ User ma Date.now jako date utworzenia, niestety GMT-1
 # komentarze, komentarze do komentarzy w Meczach
 # zapisywanie modyfikacji użytkowników + (mających role)
 # jak komentarze to powiadomienia
+
+/dashboard musi być bliżej środka
+
+druga kolumna Dashboard -> avatar nie działa jeszcze + edycja avatara

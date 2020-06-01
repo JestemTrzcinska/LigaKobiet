@@ -1,43 +1,43 @@
 import axios from 'axios';
 import { setAlert } from './alert';
-import { GET_GAMES, GAMES_ERROR, GET_GAME, GAME_ERROR } from './types';
+import { GET_CLUBS, CLUBS_ERROR, GET_CLUB, CLUB_ERROR } from './types';
 
-//Get game by ID
-export const getGameById = (id) => async (dispatch) => {
+//Get club by ID
+export const getClubById = (id) => async (dispatch) => {
   try {
-    const res = await axios.get(`/api/game/${id}`);
+    const res = await axios.get(`/api/club/${id}`);
 
     dispatch({
-      type: GET_GAME,
+      type: GET_CLUB,
       payload: res.data,
     });
   } catch (err) {
     dispatch({
-      type: GAME_ERROR,
+      type: CLUB_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
 
-//Get all games
-export const getGames = () => async (dispatch) => {
+//Get all clubs
+export const getClubs = () => async (dispatch) => {
   try {
-    const res = await axios.get('/api/game');
+    const res = await axios.get('/api/club');
 
     dispatch({
-      type: GET_GAMES,
+      type: GET_CLUBS,
       payload: res.data,
     });
   } catch (err) {
     dispatch({
-      type: GAMES_ERROR,
+      type: CLUBS_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
 
-// Create or update game
-export const createGame = (formData, edit = false) => async (dispatch) => {
+// Create or update club
+export const createClub = (formData, edit = false) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -45,16 +45,17 @@ export const createGame = (formData, edit = false) => async (dispatch) => {
       },
     };
 
-    const res = await axios.post('/api/game', formData, config);
+    const res = await axios.post('/api/club', formData, config);
 
     dispatch({
-      type: GET_GAMES,
+      type: GET_CLUBS,
       payload: res.data,
     });
 
     dispatch(
-      setAlert(edit ? 'Mecz zaktualizowany' : 'Mecz utworzony', 'success')
+      setAlert(edit ? 'Klub zaktualizowany' : 'Klub utworzony', 'success')
     );
+    // history.push('/')
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -63,7 +64,7 @@ export const createGame = (formData, edit = false) => async (dispatch) => {
     }
 
     dispatch({
-      type: GAMES_ERROR,
+      type: CLUBS_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }

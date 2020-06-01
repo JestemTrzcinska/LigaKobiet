@@ -249,6 +249,19 @@ button {
   margin: auto;
 }
 
+.edit-data {
+  height: 100%;
+  width: 80%;
+  display: flex;
+  padding-top: 10vh;
+
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: auto;
+}
+
 @media (max-width: 499px) {
   .logowanie3 {
     display: inline;

@@ -11,15 +11,9 @@ const League = require('../../models/League');
 router.post(
   '/',
   [
-    check('name', 'Nazwa jest wymagana.')
-      .not()
-      .isEmpty(),
-    check('from', 'Podanie daty jest wymagane.')
-      .not()
-      .isEmpty(),
-    check('to', 'Podanie daty jest wymagane.')
-      .not()
-      .isEmpty()
+    check('name', 'Nazwa jest wymagana.').not().isEmpty(),
+    check('from', 'Podanie daty jest wymagane.').not().isEmpty(),
+    check('to', 'Podanie daty jest wymagane.').not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -34,7 +28,7 @@ router.post(
       let leagueFromDB = await League.findOne({ name, from, to });
       if (leagueFromDB) {
         return res.status(400).json({
-          errors: [{ msg: 'Taka liga już istnieje.' }]
+          errors: [{ msg: 'Taka liga już istnieje.' }],
         });
       }
 
@@ -42,7 +36,7 @@ router.post(
       const league = new League({
         name,
         from,
-        to
+        to,
       });
 
       await league.save();
@@ -62,11 +56,29 @@ router.post(
 ///////////////////////////////////////////////// nie działa //////////////
 router.get('/', async (req, res) => {
   try {
-    const league = await League.find(req.League);
+    const league = await League.find();
     if (!league) {
       return res.status(404).json({
-        msg: 'Nie ma ni jednej ligi w bazie danych.'
+        msg: 'Nie ma ani jednej ligi w bazie danych.',
       });
+    }
+    res.json(league);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route     GET api/league/:leagueID
+// @desc      Get league by ID
+// @access    Public
+router.get('/:leagueID', async (req, res) => {
+  try {
+    const league = await League.findOne({ _id: req.params.leagueID });
+    if (!league) {
+      return res
+        .status(404)
+        .json({ msg: 'Nie ma ani jednej ligi w bazie danych.' });
     }
     res.json(league);
   } catch (err) {

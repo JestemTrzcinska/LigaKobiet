@@ -1,43 +1,43 @@
 import axios from 'axios';
 import { setAlert } from './alert';
-import { GET_GAMES, GAMES_ERROR, GET_GAME, GAME_ERROR } from './types';
+import { GET_PLAYERS, PLAYERS_ERROR, GET_PLAYER, PLAYER_ERROR } from './types';
 
-//Get game by ID
-export const getGameById = (id) => async (dispatch) => {
+//Get player by ID
+export const getPlayerById = (id) => async (dispatch) => {
   try {
-    const res = await axios.get(`/api/game/${id}`);
+    const res = await axios.get(`/api/player/${id}`);
 
     dispatch({
-      type: GET_GAME,
+      type: GET_PLAYER,
       payload: res.data,
     });
   } catch (err) {
     dispatch({
-      type: GAME_ERROR,
+      type: PLAYER_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
 
-//Get all games
-export const getGames = () => async (dispatch) => {
+//Get all players
+export const getPlayers = () => async (dispatch) => {
   try {
-    const res = await axios.get('/api/game');
+    const res = await axios.get('/api/player');
 
     dispatch({
-      type: GET_GAMES,
+      type: GET_PLAYERS,
       payload: res.data,
     });
   } catch (err) {
     dispatch({
-      type: GAMES_ERROR,
+      type: PLAYERS_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
 
-// Create or update game
-export const createGame = (formData, edit = false) => async (dispatch) => {
+// Create or update player
+export const createPlayer = (formData, edit = false) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -45,15 +45,18 @@ export const createGame = (formData, edit = false) => async (dispatch) => {
       },
     };
 
-    const res = await axios.post('/api/game', formData, config);
+    const res = await axios.post('/api/player', formData, config);
 
     dispatch({
-      type: GET_GAMES,
+      type: GET_PLAYERS,
       payload: res.data,
     });
 
     dispatch(
-      setAlert(edit ? 'Mecz zaktualizowany' : 'Mecz utworzony', 'success')
+      setAlert(
+        edit ? 'Zawodniczka zaktualizowana' : 'Zawodniczka utworzony',
+        'success'
+      )
     );
   } catch (err) {
     const errors = err.response.data.errors;
@@ -63,7 +66,7 @@ export const createGame = (formData, edit = false) => async (dispatch) => {
     }
 
     dispatch({
-      type: GAMES_ERROR,
+      type: PLAYERS_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
 
-const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const authLinks = (
     <li xs lg='5'>
       <Button className='nav-item active bordernone'>
@@ -32,6 +32,16 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
     </li>
   );
 
+  const staffLinks = (
+    <li xs lg='5'>
+      <Button className='btn-danger nav-item active'>
+        <Link to='/edit-data'>Edytuj dane</Link>
+      </Button>
+    </li>
+  );
+
+  const nothing = '';
+
   return (
     <nav className='navbar navbar-expand-lg navbar-dark'>
       <button
@@ -48,6 +58,15 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
       <div className='collapse navbar-collapse' id='navbarNav'>
         <div className='toJestNav'>
           <ul className='navnav justify-content-md-center navbar-nav'>
+            {!loading && (
+              <Fragment>
+                {isAuthenticated ? (
+                  <Fragment>{user.isStaff ? staffLinks : nothing}</Fragment>
+                ) : (
+                  nothing
+                )}
+              </Fragment>
+            )}
             <li className='btn-lg nav-item' xs lg='5'>
               <Button className='nav-item active bordernone'>
                 <Link to='/stats' className='navnavnav'>

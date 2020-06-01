@@ -1,9 +1,9 @@
-import { GET_PROFILE, PROFILE_ERROR, CLEAR_PROFILE } from '../actions/types';
+import { GET_CLUBS, CLUBS_ERROR, GET_CLUB, CLUB_ERROR } from '../actions/types';
 
 const initalState = {
-  profile: null,
-  profils: [], // list of profiles
-  repos: [],
+  club: null, // ?
+  clubs: [], // list of clubs ?
+  // repos: []
   loading: true,
   error: {},
 };
@@ -12,23 +12,23 @@ export default function (state = initalState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case GET_PROFILE:
+    case GET_CLUB:
       return {
         ...state,
-        profile: payload,
+        club: payload,
         loading: false,
       };
-    case PROFILE_ERROR:
+    case GET_CLUBS:
+      return {
+        ...state,
+        clubs: payload,
+        loading: false,
+      };
+    case CLUB_ERROR:
+    case CLUBS_ERROR:
       return {
         ...state,
         error: payload,
-        loading: false,
-      };
-    case CLEAR_PROFILE:
-      return {
-        ...state,
-        profile: null,
-        repos: [],
         loading: false,
       };
     default:

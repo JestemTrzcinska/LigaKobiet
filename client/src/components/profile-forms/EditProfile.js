@@ -27,7 +27,7 @@ const EditProfile = ({
         loading || !profile.localization ? '' : profile.localization,
       about: loading || !profile.about ? '' : profile.about,
     });
-  }, [loading]);
+  }, [loading, getCurrentProfile]);
 
   const { favClub, contact, localization, about } = formData;
 

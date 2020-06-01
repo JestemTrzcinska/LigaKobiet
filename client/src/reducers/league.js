@@ -1,9 +1,13 @@
-import { GET_PROFILE, PROFILE_ERROR, CLEAR_PROFILE } from '../actions/types';
+import {
+  GET_LEAGUES,
+  LEAGUES_ERROR,
+  GET_LEAGUE,
+  LEAGUE_ERROR,
+} from '../actions/types';
 
 const initalState = {
-  profile: null,
-  profils: [], // list of profiles
-  repos: [],
+  league: null,
+  leagues: [],
   loading: true,
   error: {},
 };
@@ -12,23 +16,23 @@ export default function (state = initalState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case GET_PROFILE:
+    case GET_LEAGUE:
       return {
         ...state,
-        profile: payload,
+        league: payload,
         loading: false,
       };
-    case PROFILE_ERROR:
+    case GET_LEAGUES:
+      return {
+        ...state,
+        leagues: payload,
+        loading: false,
+      };
+    case LEAGUE_ERROR:
+    case LEAGUES_ERROR:
       return {
         ...state,
         error: payload,
-        loading: false,
-      };
-    case CLEAR_PROFILE:
-      return {
-        ...state,
-        profile: null,
-        repos: [],
         loading: false,
       };
     default:

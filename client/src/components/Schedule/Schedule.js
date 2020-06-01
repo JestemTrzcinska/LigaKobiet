@@ -1,12 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getGames } from '../../actions/game';
 
-const Schedule = ({ getGames, game }) => {
-  useEffect(() => {
-    getGames();
-  }, [getGames]);
+const Schedule = ({ getGame, game }) => {
   return (
     <div className='beginning'>
       <h4>Schedule</h4>Schedule
@@ -15,15 +11,14 @@ const Schedule = ({ getGames, game }) => {
 };
 
 Schedule.propTypes = {
-  getGames: PropTypes.func.isRequired,
-  game: PropTypes.object.isRequired
+  game: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-  game: state.game
+const mapStateToProps = (state) => ({
+  game: state.game,
 });
 
-export default connect(mapStateToProps, { getGames })(Schedule);
+export default connect(mapStateToProps)(Schedule);
 
 // import React from 'react';
 // import { Col } from 'react-bootstrap';

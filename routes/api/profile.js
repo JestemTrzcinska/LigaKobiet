@@ -13,7 +13,13 @@ router.get('/me', auth, async (req, res) => {
     const profile = await Profile.findOne({
       user: req.user.id,
     })
-      .populate('user', ['firstName', 'lastName', 'avatar'])
+      .populate('user', [
+        'firstName',
+        'lastName',
+        'avatar',
+        'isStaff',
+        'points',
+      ])
       .populate('favClub');
 
     if (!profile) {
@@ -89,7 +95,13 @@ router.post('/', [auth], async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const profiles = await Profile.find()
-      .populate('user', ['firstName', 'lastName', 'avatar'])
+      .populate('user', [
+        'firstName',
+        'lastName',
+        'avatar',
+        'isStaff',
+        'points',
+      ])
       .populate('favClub');
     res.json(profiles);
   } catch (err) {
@@ -107,15 +119,26 @@ router.get('/user/:userID', async (req, res) => {
     const profile = await Profile.findOne({
       user: req.params.userID,
     })
-      .populate('user', ['firstName', 'lastName', 'avatar'])
+      .populate('user', [
+        'firstName',
+        'lastName',
+        'avatar',
+        'isStaff',
+        'points',
+      ])
       .populate('favClub');
 
-    if (!profile) return res.status(400).json({ msg: 'Profile not found' });
+    if (!profile)
+      return res
+        .status(400)
+        .json({ msg: 'Profil nie znaleziony w bazie danych' });
     res.json(profile);
   } catch (err) {
     console.error(err.message);
     if (err.kind == 'ObjectId') {
-      return res.status(400).json({ msg: 'Profile not found' });
+      return res
+        .status(400)
+        .json({ msg: 'Profilu nie znaleziono w bazie danych' });
     }
     res.status(500).send('Server Error');
   }

@@ -74,7 +74,25 @@ router.post(
 // @access    Public
 router.get('/', async (req, res) => {
   try {
-    const player = await Player.find(req.player);
+    const player = await Player.find();
+    if (!player) {
+      return res
+        .status(404)
+        .json({ msg: 'Nie ma ani jednej zawodniczki w bazie danych.' });
+    }
+    res.json(player);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route     GET api/player/:playerID
+// @desc      Get player by ID
+// @access    Public
+router.get('/:playerID', async (req, res) => {
+  try {
+    const player = await Player.findOne({ _id: req.params.playerID });
     if (!player) {
       return res
         .status(404)

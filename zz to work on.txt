@@ -3,7 +3,7 @@ logout / clear Profile
 line 96
 
 layout/Landing
-jeżeli jesteśmy zalogowani to po klikięciu "Liga Kobiet" nie pokazuje się strona startowa, pomyśl o tym gdzie chcesz by wyrzucało użytkownika, na pewno nie do schedule GŁÓWNA ZE WSZYSTKIM (taki panel - najbliższe mecze, ranking użytkowników, tabela ulubionej drużyny), narazie schedule
+jeżeli jesteśmy zalogowani to po klikięciu "Liga Kobiet" nie pokazuje się strona startowa, pomyśl o tym gdzie chcesz by wyrzucało użytkownika, na pewno nie do schedule GŁÓWNA ZE WSZYSTKIM (taki panel - najbliższe mecze, ranking użytkowników, tabela ulubionej drużyny), narazie schedule (tak jak IsStaffRoute)
 
 wideo - opcjonalne wypełnianie: pstryczek, że jak klikasz to się pojawia więcej rzeczy do wpisania w form 047 5:00-7:40, on uzywa w CreateProfile
 
@@ -34,3 +34,7 @@ User ma Date.now jako date utworzenia, niestety GMT-1
 /dashboard musi być bliżej środka
 
 druga kolumna Dashboard -> avatar nie działa jeszcze + edycja avatara
+
+po zalogowanym user.isStaff, wylogowaniu i zalogowaniu user pokazuje się przez chwile "Edytuj Dane" !!!!!!!!
+
+możliwość edycji Avatara

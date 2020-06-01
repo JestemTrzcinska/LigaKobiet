@@ -1,27 +1,35 @@
-import { GET_GAMES, GET_GAMES_ERROR } from '../actions/types';
+import { GET_GAMES, GAMES_ERROR, GET_GAME, GAME_ERROR } from '../actions/types';
 
 const initalState = {
   game: null, // ?
   games: [], // list of games ?
+  // repos: []
   loading: true,
-  error: {}
+  error: {},
 };
 
-export default function(state = initalState, action) {
+export default function (state = initalState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case GET_GAMES:
+    case GET_GAME:
       return {
         ...state,
         game: payload,
-        loading: false
+        loading: false,
       };
-    case GET_GAMES_ERROR:
+    case GET_GAMES:
+      return {
+        ...state,
+        games: payload,
+        loading: false,
+      };
+    case GAME_ERROR:
+    case GAMES_ERROR:
       return {
         ...state,
         error: payload,
-        loading: false
+        loading: false,
       };
     default:
       return state;

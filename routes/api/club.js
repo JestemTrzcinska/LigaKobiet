@@ -11,12 +11,8 @@ const Club = require('../../models/Club');
 router.post(
   '/',
   [
-    check('name', 'Nazwa klubu jest wymagana.')
-      .not()
-      .isEmpty(),
-    check('league', 'Podanie ligi jest wymagane.')
-      .not()
-      .isEmpty()
+    check('name', 'Nazwa klubu jest wymagana.').not().isEmpty(),
+    check('league', 'Podanie ligi jest wymagane.').not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -31,12 +27,12 @@ router.post(
       let club = await Club.findOne({ name });
       if (club) {
         return res.status(400).json({
-          errors: [{ msg: 'Taki klub już istnieje w bazie.' }]
+          errors: [{ msg: 'Taki klub już istnieje w bazie.' }],
         });
       }
 
       const leagueFromDB = await League.findOne({
-        name: league
+        name: league,
       });
       if (!leagueFromDB) {
         return res
@@ -48,13 +44,13 @@ router.post(
       logo = gravatar.url({
         s: '200', // size
         r: 'pg', // reading; cant be naked people
-        d: 'mm' // default; user icon when he doesnt have one
+        d: 'mm', // default; user icon when he doesnt have one
       });
 
       club = new Club({
         name,
         league: leagueFromDB,
-        logo
+        logo,
       });
 
       await club.save();
@@ -68,12 +64,34 @@ router.post(
   }
 );
 
+//  await Club.find(req.club) ?
+
 // @route     GET api/club
-// @desc      Get club
+// @desc      Get clubs
 // @access    Public
 router.get('/', async (req, res) => {
   try {
-    const club = await Club.find(req.club);
+    const club = await Club.find().populate('league');
+    if (!club) {
+      return res
+        .status(404)
+        .json({ msg: 'Nie ma ani jednego klubu w bazie danych.' });
+    }
+    res.json(club);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route     GET api/club/:clubID
+// @desc      Get club by ID
+// @access    Public
+router.get('/:clubID', async (req, res) => {
+  try {
+    const club = await Club.findOne({ _id: req.params.clubID }).populate(
+      'league'
+    );
     if (!club) {
       return res
         .status(404)

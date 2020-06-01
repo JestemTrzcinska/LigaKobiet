@@ -85,11 +85,56 @@ router.post(
 // @access    Public
 router.get('/', async (req, res) => {
   try {
-    const playerInClub = await PlayerInClub.find(req.playerInClub);
+    const playerInClub = await PlayerInClub.find();
     if (!playerInClub) {
       return res.status(404).json({
         msg:
-          'Nie ma ni jednej przynależności zawodniczki z klubem w bazie danych.',
+          'Nie ma ani jednej przynależności zawodniczki z klubem w bazie danych.',
+      });
+    }
+    res.json(playerInClub);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route     GET api/playerInClub/:playerInClub
+// @desc      Get playerInClub by ID
+// @access    Public
+router.get('/:playerInClubID', async (req, res) => {
+  try {
+    const playerInClub = await PlayerInClub.findOne({
+      _id: req.params.playerInClubID,
+    })
+      .populate('player')
+      .populate('club');
+    if (!playerInClub) {
+      return res.status(404).json({
+        msg: `Zawodniczka ${player.firstName} ${player.lastName} nie ma powiązania zawodnik-klub.`,
+      });
+    }
+    res.json(playerInClub);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route     GET api//player/:playerID
+// @desc      Get playerInClub by playerID
+// @access    Public
+router.get('/player/:playerID', async (req, res) => {
+  try {
+    const playerInClub = await PlayerInClub.findOne({
+      player: req.params.playerID,
+    })
+      .populate('player')
+      .populate('club');
+    if (!playerInClub) {
+      return res.status(404).json({
+        msg:
+          'Nie ma ani jednej przynależności zawodniczki z klubem w bazie danych.',
       });
     }
     res.json(playerInClub);

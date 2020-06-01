@@ -213,7 +213,34 @@ router.post(
 // @access    Public
 router.get('/', async (req, res) => {
   try {
-    const game = await Game.find().sort({ date: -1 });
+    const game = await Game.find()
+      .sort({ date: -1 })
+      .populate('teamHome')
+      .populate('teamAway')
+      .populate('league');
+    if (!game) {
+      return res
+        .status(404)
+        .json({ msg: 'Nie ma ani jednego meczu w bazie danych.' });
+    }
+    res.json(game);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route     GET api/game/:gameID
+// @desc      Get game by game ID
+// @access    Public
+router.get('/:gameID', async (req, res) => {
+  try {
+    const game = await Game.findOne({
+      _id: req.params.gameID,
+    })
+      .populate('teamHome')
+      .populate('teamAway')
+      .populate('league');
     if (!game) {
       return res
         .status(404)

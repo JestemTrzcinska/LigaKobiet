@@ -2,24 +2,14 @@ import React, { useState, Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createClub, getClubById } from '../../../actions/club';
+import { createClub } from '../../../actions/club';
 
-const EditClub = ({ club: { club, loading }, createClub, getClubById }) => {
+const CreateClub = ({ createClub }) => {
   const [formData, setFormData] = useState({
     name: '',
     league: '',
     logo: '',
   });
-
-  useEffect(() => {
-    getClubById();
-
-    setFormData({
-      name: loading || !club.name ? '' : club.name,
-      league: loading || !club.league.name ? '' : club.league.name,
-      logo: loading || !club.logo ? '' : club.logo,
-    });
-  }, [loading, getClubById]);
 
   const { name, league, logo } = formData;
 
@@ -28,20 +18,18 @@ const EditClub = ({ club: { club, loading }, createClub, getClubById }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createClub(formData, true);
+    createClub(formData);
   };
-
-  const linkTo = `/club/${club._id}`;
 
   return (
     <div className='beginning'>
       <Fragment>
         <form className='form' onSubmit={(e) => onSubmit(e)}>
           <p className='lead'>
-            <i className='fas fa-user'></i> Edycja klubu
+            <i className='fas fa-user'></i> Dodanie klubu
           </p>
           <div className='form-group'>
-            <small className='form-text'>Nazwa:</small>
+            <small className='form-text'>*Nazwa:</small>
             <input
               type='text'
               placeholder='Nazwa'
@@ -51,7 +39,7 @@ const EditClub = ({ club: { club, loading }, createClub, getClubById }) => {
             />
           </div>
           <div className='form-group'>
-            <small className='form-text'>Liga:</small>
+            <small className='form-text'>*Liga:</small>
             <input
               type='text'
               placeholder='Liga'
@@ -71,8 +59,8 @@ const EditClub = ({ club: { club, loading }, createClub, getClubById }) => {
             />
           </div>
           <input type='submit' className='btn btn-primary' value='Potwierdź' />{' '}
-          <Link className='btn btn-warning my-1 white' to={linkTo}>
-            Wróć
+          <Link className='btn btn-warning my-1 white' to='edit-data'>
+            Wróć do danych
           </Link>
         </form>
       </Fragment>
@@ -80,14 +68,8 @@ const EditClub = ({ club: { club, loading }, createClub, getClubById }) => {
   );
 };
 
-EditClub.propTypes = {
-  createClub: PropTypes.func.isRequired,
-  getClubById: PropTypes.func.isRequired,
+CreateClub.propTypes = {
   club: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  club: state.club,
-});
-
-export default connect(mapStateToProps, { createClub, getClubById })(EditClub);
+export default connect(null, { createClub })(CreateClub);

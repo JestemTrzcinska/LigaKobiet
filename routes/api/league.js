@@ -23,17 +23,29 @@ router.post(
 
     const { name, from, to } = req.body;
 
+    // See if the League exists
+    let leagueFromDB = await League.findOne({ name, from, to });
+    if (leagueFromDB) {
+      return res.status(400).json({
+        errors: [{ msg: 'Taka liga już istnieje.' }],
+      });
+    }
     try {
-      // See if the League exists
-      let leagueFromDB = await League.findOne({ name, from, to });
-      if (leagueFromDB) {
-        return res.status(400).json({
-          errors: [{ msg: 'Taka liga już istnieje.' }],
-        });
+      let league = await League.findOne({ name });
+
+      if (league) {
+        // Update
+        const league2 = await League.findOneAndUpdate(
+          { _id: league._id },
+          { $set: { name, from, to } },
+          { new: true }
+        );
+
+        return res.json(league2);
       }
 
       // Create
-      const league = new League({
+      league = new League({
         name,
         from,
         to,

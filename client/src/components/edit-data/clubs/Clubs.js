@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../../layout/Spinner';
@@ -18,6 +19,9 @@ const Clubs = ({ getClubs, club: { clubs, loading } }) => {
         <Fragment>
           <div className='profiles'>
             <h1 className='large text-primary'>Kluby</h1>
+            <Link to='create-club' className='btn btn-warning my-1 white'>
+              Dodaj klub
+            </Link>
             {/* loop */}
             {clubs.length > 0 ? (
               clubs.map((club) => <ClubItem key={club._id} club={club} />)

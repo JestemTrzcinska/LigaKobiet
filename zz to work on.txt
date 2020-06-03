@@ -37,4 +37,15 @@ druga kolumna Dashboard -> avatar nie działa jeszcze + edycja avatara
 
 po zalogowanym user.isStaff, wylogowaniu i zalogowaniu user pokazuje się przez chwile "Edytuj Dane" !!!!!!!!
 
-możliwość edycji Avatara
+możliwość edycji Avatara w normalny sposób
+
+wbijasz do DODAJ MECZ i tam wpisujesz dane, które już są - to on edytuje je, halo halo, jakiś alert, że w takim razie edytujesz dane czy coś
+te drużyny grały już ze sobą - musi się pokazać że to edit
+
+po dodaniu urodzenia zawodniczce robi się nowa zawodniczka, przemyśleć to
+
+ilość bramek CreateGame EditGame nie mniejsza niż 1
+
+alert Bad Request 400 nie pokazuje się w alertach
+
+wyłączyć możliwość edytowania wymaganych rzeczy w formularzach

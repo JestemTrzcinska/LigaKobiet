@@ -22,30 +22,41 @@ router.post(
 
     let { name, league, logo } = req.body;
 
+    const leagueFromDB = await League.findOne({
+      name: league,
+    });
+    if (!leagueFromDB) {
+      return res
+        .status(400)
+        .json({ msg: 'Taka liga nie istnieje w bazie danych.' });
+    }
+
+    // Get clubs gravatar
+    logo
+      ? logo
+      : (logo = gravatar.url({
+          s: '200', // size
+          r: 'pg', // reading; cant be naked people
+          d: 'mm', // default; user icon when he doesnt have one
+        }));
+
     try {
-      // See if the Club exists
-      let club = await Club.findOne({ name });
+      let club = await Club.findOne({
+        name,
+      });
+
       if (club) {
-        return res.status(400).json({
-          errors: [{ msg: 'Taki klub już istnieje w bazie.' }],
-        });
+        // Update
+        const club2 = await Club.findOneAndUpdate(
+          { _id: club._id },
+          { $set: { name, league: leagueFromDB.id, logo } },
+          { new: true }
+        );
+
+        return res.json(club2);
       }
 
-      const leagueFromDB = await League.findOne({
-        name: league,
-      });
-      if (!leagueFromDB) {
-        return res
-          .status(400)
-          .json({ msg: 'Taka liga nie istnieje w bazie danych.' });
-      }
-
-      // Get clubs gravatar
-      logo = gravatar.url({
-        s: '200', // size
-        r: 'pg', // reading; cant be naked people
-        d: 'mm', // default; user icon when he doesnt have one
-      });
+      // Create
 
       club = new Club({
         name,

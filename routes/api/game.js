@@ -30,172 +30,208 @@ router.post(
 
     const { teamHome, teamAway, league, localization, date, goals } = req.body;
 
-    try {
-      // See if teamHome exists
-      const teamHomeFromDB = await Club.findOne({
-        name: teamHome,
+    // See if teamHome exists
+    const teamHomeFromDB = await Club.findOne({
+      name: teamHome,
+    });
+    if (!teamHomeFromDB) {
+      return res.status(400).json({
+        errors: [{ msg: `Taki klub ${teamHome} nie istnieje w bazie danych.` }],
       });
-      if (!teamHomeFromDB) {
-        return res
-          .status(400)
-          .json({ msg: `Taki klub ${teamHome} nie istnieje w bazie danych.` });
-      }
+    }
 
-      // See if teamAway exists
-      const teamAwayFromDB = await Club.findOne({
-        name: teamAway,
+    // See if teamAway exists
+    const teamAwayFromDB = await Club.findOne({
+      name: teamAway,
+    });
+    if (!teamAwayFromDB) {
+      return res.status(400).json({
+        errors: [{ msg: `Taki klub ${teamAway} nie istnieje w bazie danych.` }],
       });
-      if (!teamAwayFromDB) {
-        return res
-          .status(400)
-          .json({ msg: `Taki klub ${teamAway} nie istnieje w bazie danych.` });
-      }
+    }
 
-      // See if teams are not the same
-      if (teamAwayFromDB.id === teamHomeFromDB.id) {
-        return res.status(400).json({
-          msg:
-            'Dwie takie same drużyny nie mogą grać ze sobą oficjalnego meczu. Proszę o wprowadzenie poprawnych danych.',
-        });
-      }
-
-      // See if the Game already exists
-      const gameDB = await Game.findOne({
-        teamHome: teamHomeFromDB.id,
-        teamAway: teamAwayFromDB.id,
-        localization,
-        date: date,
+    // See if teams are not the same
+    if (teamAwayFromDB.id === teamHomeFromDB.id) {
+      return res.status(400).json({
+        errors: [
+          {
+            msg:
+              'Dwie takie same drużyny nie mogą grać ze sobą oficjalnego meczu. Proszę o wprowadzenie poprawnych danych.',
+          },
+        ],
       });
+    }
 
-      if (gameDB) {
-        return res.status(400).json({
-          errors: [{ msg: 'Taki mecz jest już w bazie.' }],
-        });
-      }
+    // // See if the Game already exists
+    // const gameDB = await Game.findOne({
+    //   teamHome: teamHomeFromDB.id,
+    //   teamAway: teamAwayFromDB.id,
+    //   localization,
+    //   date: date,
+    // });
 
-      // See if league exists
-      const leagueFromRequest = league;
-      const leagueFromDB = await League.findOne({
-        name: leagueFromRequest,
+    // if (gameDB) {
+    //   return res.status(400).json({
+    //     errors: [{ msg: 'Taki mecz jest już w bazie.' }],
+    //   });
+    // }
+
+    // See if league exists
+    const leagueFromRequest = league;
+    const leagueFromDB = await League.findOne({
+      name: leagueFromRequest,
+    });
+    if (!leagueFromDB) {
+      return res.status(400).json({
+        errors: [{ msg: 'Taka liga nie istnieje w bazie danych.' }],
       });
-      if (!leagueFromDB) {
-        return res
-          .status(400)
-          .json({ msg: 'Taka liga nie istnieje w bazie danych.' });
-      }
+    }
 
-      // Build gameFields object
-      const gameFields = {};
+    // Build gameFields object
+    const gameFields = {};
 
-      gameFields.teamHome = teamHomeFromDB;
-      gameFields.teamAway = teamAwayFromDB;
-      gameFields.league = leagueFromDB;
-      if (localization) gameFields.localization = localization;
+    gameFields.teamHome = teamHomeFromDB.id;
+    gameFields.teamAway = teamAwayFromDB.id;
+    gameFields.league = leagueFromDB.id;
+    if (localization) gameFields.localization = localization;
 
-      // Check if game is in time that league is
-      if (moment(date) > leagueFromDB.from && moment(date) < leagueFromDB.to) {
-        gameFields.date = date;
-      } else {
-        return res.status(400).json({
-          msg: `Prosze o podanie prawidłowej daty meczu. Musi się zawierać między ${moment(
-            leagueFromDB.from
-          ).format('DD-MM-YYYY')} a ${moment(leagueFromDB.to).format(
-            'DD-MM-YYYY'
-          )}`,
-        });
-      }
+    // Check if game is in time that league is
+    if (moment(date) > leagueFromDB.from && moment(date) < leagueFromDB.to) {
+      gameFields.date = date;
+    } else {
+      return res.status(400).json({
+        errors: [
+          {
+            msg: `Prosze o podanie prawidłowej daty meczu. Musi się zawierać między ${moment(
+              leagueFromDB.from
+            ).format('DD-MM-YYYY')} a ${moment(leagueFromDB.to).format(
+              'DD-MM-YYYY'
+            )}`,
+          },
+        ],
+      });
+    }
 
-      if (goals) {
-        gameFields.goals = [];
-        for (i = 0; i < goals.length; i++) {
-          let goalsPreparedForGameFields = {};
+    if (goals) {
+      gameFields.goals = [];
+      for (i = 0; i < goals.length; i++) {
+        let goalsPreparedForGameFields = {};
 
-          // amount
-          if (goals[i].amount)
-            goalsPreparedForGameFields.amount = goals[i].amount;
-          else {
-            return res
-              .status(400)
-              .json({ msg: 'Podanie ilości goli jest obowiązkowe.' });
-          }
+        // amount
+        if (goals[i].amount)
+          goalsPreparedForGameFields.amount = goals[i].amount;
+        else {
+          return res.status(400).json({
+            errors: [{ msg: 'Podanie ilości goli jest obowiązkowe.' }],
+          });
+        }
 
-          // shotBy
-          if (!goals[i].shotBy)
-            return res.status(400).json({
-              msg: 'Podanie informacji kto strzelił jest obowiązkowe.',
-            });
-
-          // See if player in teamHome or teamAway exists
-          const playerFirstNameReq = goals[i].shotBy[0];
-          const playerLastNameReq = goals[i].shotBy[1];
-          const playerFromDB = await Player.findOne({
-            firstName: playerFirstNameReq,
-            lastName: playerLastNameReq,
+        // shotBy
+        if (!goals[i].shotBy)
+          return res.status(400).json({
+            errors: [
+              {
+                msg: 'Podanie informacji kto strzelił jest obowiązkowe.',
+              },
+            ],
           });
 
-          if (!playerFromDB)
-            return res
-              .status(400)
-              .json({ msg: 'Taka zawodniczka nie istnieje w bazie danych.' });
+        const separate = goals[i].shotBy.split(' ');
 
-          // goal for who t.b.c.
-          if (
-            goals[i].goalForTeamHome == true ||
-            goals[i].goalForTeamHome == false
-          )
-            goalsPreparedForGameFields.goalForTeamHome =
-              goals[i].goalForTeamHome;
-          else
-            return res.status(400).json({
-              msg: `Podanie informacji, dla kogo zostały bramki zdobyte przez zawodnika ${playerFromDB.firstName} ${playerFromDB.lastName} jest obowiązkowe.`,
-            });
+        // See if player in teamHome or teamAway exists
+        const playerFirstNameReq = separate[0];
+        const playerLastNameReq = separate[1];
+        const playerFromDB = await Player.findOne({
+          firstName: playerFirstNameReq,
+          lastName: playerLastNameReq,
+        });
 
-          let playerInClubEqualPlayerThatShoot;
+        if (!playerFromDB)
+          return res.status(400).json({
+            errors: [{ msg: 'Taka zawodniczka nie istnieje w bazie danych.' }],
+          });
 
-          if (goals[i].goalForTeamHome == true && goals[i].isOwn == true) {
-            playerInClubEqualPlayerThatShoot = await PlayerInClub.findOne({
-              player: playerFromDB,
-              club: teamAwayFromDB,
-            });
-          }
-          if (goals[i].goalForTeamHome == true && goals[i].isOwn == false) {
-            playerInClubEqualPlayerThatShoot = await PlayerInClub.findOne({
-              player: playerFromDB,
-              club: teamHomeFromDB,
-            });
-          }
-          if (goals[i].goalForTeamHome == false && goals[i].isOwn == false) {
-            playerInClubEqualPlayerThatShoot = await PlayerInClub.findOne({
-              player: playerFromDB,
-              club: teamAwayFromDB,
-            });
-          }
-          if (goals[i].goalForTeamHome == false && goals[i].isOwn == true) {
-            playerInClubEqualPlayerThatShoot = await PlayerInClub.findOne({
-              player: playerFromDB,
-              club: teamHomeFromDB,
-            });
-          }
+        // goal for who t.b.c.
+        if (
+          goals[i].goalForTeamHome == true ||
+          goals[i].goalForTeamHome == false
+        )
+          goalsPreparedForGameFields.goalForTeamHome = goals[i].goalForTeamHome;
+        else
+          return res.status(400).json({
+            errors: [
+              {
+                msg: `Podanie informacji, dla kogo zostały bramki zdobyte przez zawodnika ${playerFromDB.firstName} ${playerFromDB.lastName} jest obowiązkowe.`,
+              },
+            ],
+          });
 
-          console.log(teamHomeFromDB);
+        let playerInClubEqualPlayerThatShoot;
 
-          if (!playerInClubEqualPlayerThatShoot)
-            return res.status(400).json({
-              msg: `Zawodniczka o nazwisku: ${playerFromDB.lastName} nie bierze udziału w tym meczu. Pamiętaj! Jeżeli był to samobój zaznacz poniżej "Samobój".`,
-            });
-
-          goalsPreparedForGameFields.shotBy = playerFromDB;
-
-          // is Own?
-          if (goals[i].isOwn == true || goals[i].isOwn == false)
-            goalsPreparedForGameFields.isOwn = goals[i].isOwn;
-
-          gameFields.goals.push(goalsPreparedForGameFields);
+        if (goals[i].goalForTeamHome == true && goals[i].isOwn == true) {
+          playerInClubEqualPlayerThatShoot = await PlayerInClub.findOne({
+            player: playerFromDB,
+            club: teamAwayFromDB,
+          });
         }
+        if (goals[i].goalForTeamHome == true && goals[i].isOwn == false) {
+          playerInClubEqualPlayerThatShoot = await PlayerInClub.findOne({
+            player: playerFromDB,
+            club: teamHomeFromDB,
+          });
+        }
+        if (goals[i].goalForTeamHome == false && goals[i].isOwn == false) {
+          playerInClubEqualPlayerThatShoot = await PlayerInClub.findOne({
+            player: playerFromDB,
+            club: teamAwayFromDB,
+          });
+        }
+        if (goals[i].goalForTeamHome == false && goals[i].isOwn == true) {
+          playerInClubEqualPlayerThatShoot = await PlayerInClub.findOne({
+            player: playerFromDB,
+            club: teamHomeFromDB,
+          });
+        }
+
+        if (!playerInClubEqualPlayerThatShoot)
+          return res.status(400).json({
+            errors: [
+              {
+                msg: `Zawodniczka o nazwisku: ${playerFromDB.lastName} nie bierze udziału w tym meczu. Pamiętaj! Jeżeli był to samobój zaznacz poniżej "Samobój".`,
+              },
+            ],
+          });
+
+        goalsPreparedForGameFields.shotByFirstName = playerFromDB;
+
+        // is Own?
+        if (goals[i].isOwn == true || goals[i].isOwn == false)
+          goalsPreparedForGameFields.isOwn = goals[i].isOwn;
+
+        gameFields.goals.push(goalsPreparedForGameFields);
+      }
+    }
+
+    try {
+      let game = await Game.findOne({
+        teamHome: teamHomeFromDB.id,
+        teamAway: teamAwayFromDB.id,
+        league: leagueFromDB.id,
+      });
+
+      if (game) {
+        // Update
+        game = await Game.findOneAndUpdate(
+          { _id: game._id },
+          { $set: gameFields },
+          { new: true }
+        );
+
+        return res.json(game);
       }
 
       // Create
-      const game = new Game(gameFields);
+      game = new Game(gameFields);
 
       await game.save();
       res.json(game);
@@ -219,9 +255,14 @@ router.get('/', async (req, res) => {
       .populate('teamAway')
       .populate('league');
     if (!game) {
-      return res
-        .status(404)
-        .json({ msg: 'Nie ma ani jednego meczu w bazie danych.' });
+      return res.status(404).json({
+        errors: [
+          {
+            msg:
+              'Nie ma ani jednego meczu w bazie danych. Skontaktuj się z administratorem.',
+          },
+        ],
+      });
     }
     res.json(game);
   } catch (err) {
@@ -242,9 +283,14 @@ router.get('/:gameID', async (req, res) => {
       .populate('teamAway')
       .populate('league');
     if (!game) {
-      return res
-        .status(404)
-        .json({ msg: 'Nie ma ani jednego meczu w bazie danych.' });
+      return res.status(404).json({
+        errors: [
+          {
+            msg:
+              'Nie ma ani jednego meczu w bazie danych. Skontaktuj się z administratorem.',
+          },
+        ],
+      });
     }
     res.json(game);
   } catch (err) {

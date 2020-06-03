@@ -85,7 +85,9 @@ router.post(
 // @access    Public
 router.get('/', async (req, res) => {
   try {
-    const playerInClub = await PlayerInClub.find();
+    const playerInClub = await PlayerInClub.find()
+      .populate('club')
+      .populate('player');
     if (!playerInClub) {
       return res.status(404).json({
         msg:

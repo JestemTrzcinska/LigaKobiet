@@ -22,35 +22,56 @@ router.post(
 
     let { firstName, lastName, name, avatar, birth } = req.body;
 
+    // // See if Player exists
+    firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+
+    lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1);
+
+    if (name) name = name.charAt(0).toUpperCase() + name.slice(1);
+    else name = firstName + ' ' + lastName;
+
+    // const playerDB = await Player.findOne({
+    //   firstName,
+    //   lastName,
+    //   name,
+    //   birth,
+    // });
+    // if (playerDB) {
+    //   return res.status(400).json({
+    //     msg: `Taka zawodnika już istnieje w bazie danych. Jeżeli chodzi o inną niż ta w bazie - spróbuj ponowanie uzupełniając poprawną datę urodzenia`,
+    //   });
+    // }
+
+    // Get users gravatar
+    avatar = gravatar.url({
+      s: '200', // size
+      r: 'pg', // reading; cant be naked people
+      d: 'mm', // default; user icon when he doesnt have one
+    });
+
     try {
-      // // See if Player exists
-      firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
-
-      lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1);
-
-      if (name) name = name.charAt(0).toUpperCase() + name.slice(1);
-      else name = firstName + ' ' + lastName;
-
-      const playerDB = await Player.findOne({
+      let player = await Player.findOne({
         firstName,
         lastName,
-        name,
         birth,
       });
-      if (playerDB) {
-        return res.status(400).json({
-          msg: `Taka zawodnika już istnieje w bazie danych. Jeżeli chodzi o inną niż ta w bazie - spróbuj ponowanie uzupełniając poprawną datę urodzenia`,
-        });
+      // console.log(player);
+
+      if (player) {
+        // Update
+        const player2 = await Player.findOneAndUpdate(
+          {
+            _id: player._id,
+          },
+          { $set: { firstName, lastName, name, avatar, birth } },
+          { new: true }
+        );
+        // console.log(player2);
+        return res.json(player2);
       }
 
-      // Get users gravatar
-      avatar = gravatar.url({
-        s: '200', // size
-        r: 'pg', // reading; cant be naked people
-        d: 'mm', // default; user icon when he doesnt have one
-      });
-
-      const player = new Player({
+      // Create
+      player = new Player({
         firstName,
         lastName,
         name,

@@ -18,10 +18,15 @@ import Clubs from './components/edit-data/clubs/Clubs';
 import Leagues from './components/edit-data/leagues/Leagues';
 import Players from './components/edit-data/players/Players';
 import PlayersInClub from './components/edit-data/players/PlayersInClub';
-// edit
+// edit & create
 import EditGame from './components/edit-data/games/EditGame';
+import CreateGame from './components/edit-data/games/CreateGame';
 import EditClub from './components/edit-data/clubs/EditClub';
+import CreateClub from './components/edit-data/clubs/CreateClub';
 import EditLeague from './components/edit-data/leagues/EditLeague';
+import CreateLeague from './components/edit-data/leagues/CreateLeague';
+import EditPlayer from './components/edit-data/players/EditPlayer';
+import CreatePlayer from './components/edit-data/players/CreatePlayer';
 
 import Game from './components/game/Game';
 import Club from './components/club/Club';
@@ -82,8 +87,21 @@ const App = () => {
             />
             <IsStaffRoute exact path='/edit-data/leagues' component={Leagues} />
             <IsStaffRoute exact path='/edit-game' component={EditGame} />
+            <IsStaffRoute exact path='/create-game' component={CreateGame} />
             <IsStaffRoute exact path='/edit-club' component={EditClub} />
+            <IsStaffRoute exact path='/create-club' component={CreateClub} />
             <IsStaffRoute exact path='/edit-league' component={EditLeague} />
+            <IsStaffRoute
+              exact
+              path='/create-league'
+              component={CreateLeague}
+            />
+            <IsStaffRoute exact path='/edit-player' component={EditPlayer} />
+            <IsStaffRoute
+              exact
+              path='/create-player'
+              component={CreatePlayer}
+            />
           </Switch>
         </Fragment>
       </Router>

@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -19,6 +20,9 @@ const Games = ({ getGames, game: { games, loading } }) => {
         <Fragment>
           <div className='profiles'>
             <h1 className='large text-primary'>Mecze</h1>
+            <Link to='create-game' className='btn btn-warning my-1 white'>
+              Dodaj mecz
+            </Link>
             {/* loop */}
             {games.length > 0 ? (
               games.map((game) => <GameItem key={game._id} game={game} />)

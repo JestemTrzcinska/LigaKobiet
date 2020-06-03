@@ -48,7 +48,7 @@ export const createGame = (formData, edit = false) => async (dispatch) => {
     const res = await axios.post('/api/game', formData, config);
 
     dispatch({
-      type: GET_GAMES,
+      type: GET_GAME,
       payload: res.data,
     });
 
@@ -63,7 +63,7 @@ export const createGame = (formData, edit = false) => async (dispatch) => {
     }
 
     dispatch({
-      type: GAMES_ERROR,
+      type: GAME_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }

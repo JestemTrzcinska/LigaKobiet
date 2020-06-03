@@ -48,7 +48,7 @@ export const createPlayer = (formData, edit = false) => async (dispatch) => {
     const res = await axios.post('/api/player', formData, config);
 
     dispatch({
-      type: GET_PLAYERS,
+      type: GET_PLAYER,
       payload: res.data,
     });
 
@@ -66,7 +66,7 @@ export const createPlayer = (formData, edit = false) => async (dispatch) => {
     }
 
     dispatch({
-      type: PLAYERS_ERROR,
+      type: PLAYER_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }

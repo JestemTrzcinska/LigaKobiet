@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../../layout/Spinner';
@@ -18,6 +19,9 @@ const Leagues = ({ getLeagues, league: { leagues, loading } }) => {
         <Fragment>
           <div className='profiles'>
             <h1 className='large text-primary'>Ligi</h1>
+            <Link to='create-league' className='btn btn-warning my-1 white'>
+              Dodaj ligę
+            </Link>
             {/* loop */}
             {leagues.length > 0 ? (
               leagues.map((league) => (

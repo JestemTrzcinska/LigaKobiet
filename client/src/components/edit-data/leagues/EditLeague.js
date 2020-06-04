@@ -18,7 +18,7 @@ const EditLeague = ({
   // goals
 
   useEffect(() => {
-    getLeagueById();
+    getLeagueById(league._id);
 
     setFormData({
       name: loading || !league.name ? '' : league.name,

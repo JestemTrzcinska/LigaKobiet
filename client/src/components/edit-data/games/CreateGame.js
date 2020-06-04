@@ -1,10 +1,9 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createGame } from '../../../actions/game';
-// import Moment from 'react-moment'
 
 const CreateGame = ({ createGame }) => {
   const [formData, setFormData] = useState({
@@ -13,25 +12,26 @@ const CreateGame = ({ createGame }) => {
     league: '',
     localization: '',
     date: '',
-    amount: '',
-    goalForTeamHome: '',
-    shotBy: '',
-    isOwn: '',
+    goals: [],
   });
+
+  const [amount, setAmount] = useState(0);
+  const [goalForTeamHome, setGoalForTeamHome] = useState(false);
+  const [shotBy, setShotBy] = useState('');
+  const [isOwn, setIsOwn] = useState(false);
 
   const [displayGoalsInput, toggleGoalsInputs] = useState(false);
 
-  const {
-    teamHome,
-    teamAway,
-    league,
-    localization,
-    date,
-    amount,
-    goalForTeamHome,
-    shotBy,
-    isOwn,
-  } = formData;
+  const { teamHome, teamAway, league, localization, date, goals } = formData;
+
+  const addGoal = () => {
+    const goal = { amount, goalForTeamHome, shotBy, isOwn };
+    setFormData({ ...formData, goals: [...goals, goal] });
+    setAmount(0);
+    setGoalForTeamHome(goalForTeamHome);
+    setShotBy('');
+    setIsOwn(isOwn);
+  };
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -46,10 +46,10 @@ const CreateGame = ({ createGame }) => {
       <Fragment>
         <form className='form' onSubmit={(e) => onSubmit(e)}>
           <p className='lead'>
-            <i className='fas fa-user'></i> Dodanie meczu
+            <i className='fas fa-user'></i> Dodanie meczu:
           </p>
           <div className='form-group'>
-            <small className='form-text'>*Gospodarz:</small>
+            <small className='form-text'>Gospodarz:</small>
             <input
               type='text'
               placeholder='Gospodarz'
@@ -59,7 +59,7 @@ const CreateGame = ({ createGame }) => {
             />
           </div>
           <div className='form-group'>
-            <small className='form-text'>*Gość:</small>
+            <small className='form-text'>Gość:</small>
             <input
               type='text'
               placeholder='Gość'
@@ -69,9 +69,9 @@ const CreateGame = ({ createGame }) => {
             />
           </div>
           <div className='form-group'>
-            <small className='form-text'>*Data spotkania:</small>
+            <small className='form-text'>Data spotkania:</small>
             <input
-              type='date'
+              type='text'
               placeholder='Data spotkania'
               name='date'
               value={date}
@@ -79,7 +79,7 @@ const CreateGame = ({ createGame }) => {
             />
           </div>
           <div className='form-group'>
-            <small className='form-text'>*Liga:</small>
+            <small className='form-text'>Liga:</small>
             <input
               type='text'
               placeholder='Liga'
@@ -115,25 +115,25 @@ const CreateGame = ({ createGame }) => {
                 2
               </small>
               <div className='form-group'>
-                <small className='form-text'>*Kto strzelił bramkę:</small>
+                <small className='form-text'>Kto strzelił bramkę:</small>
                 <input
                   type='text'
                   placeholder='Kto strzelił'
                   name='shotBy'
                   value={shotBy}
-                  onChange={(e) => onChange(e)}
+                  onChange={(e) => setShotBy(e.target.value)}
                 />
               </div>
               <div className='form-group'>
                 <small className='form-text'>
-                  *Ilość bramek jednej zawodniczki:
+                  Ilość bramek jednej zawodniczki:
                 </small>
                 <input
                   type='number'
                   placeholder='Ilość bramek'
                   name='amount'
                   value={amount}
-                  onChange={(e) => onChange(e)}
+                  onChange={(e) => setAmount(e.target.value)}
                 />
               </div>
               <div className='form-group'>
@@ -145,10 +145,9 @@ const CreateGame = ({ createGame }) => {
                   placeholder='Czy bramka dla gospodarzy'
                   name='goalForTeamHome'
                   value={goalForTeamHome}
-                  onChange={(e) => onChange(e)}
+                  onChange={(e) => setGoalForTeamHome(e.target.checked)}
                 />
               </div>
-
               <div className='form-group'>
                 <small className='form-text'>Czy był to samobój:</small>
                 <input
@@ -156,14 +155,17 @@ const CreateGame = ({ createGame }) => {
                   placeholder='Czy był to samobój'
                   name='isOwn'
                   value={isOwn}
-                  onChange={(e) => onChange(e)}
+                  onChange={(e) => setIsOwn(e.target.checked)}
                 />
               </div>
+              <Button onClick={() => addGoal()} className='btn btn-primary'>
+                Dodaj bramkę
+              </Button>
             </Fragment>
           )}
           <input type='submit' className='btn btn-primary' value='Potwierdź' />{' '}
-          <Link className='btn btn-warning my-1 white' to='/edit-data'>
-            Wróć do danych
+          <Link className='btn btn-warning my-1 white' to='edit-data'>
+            Wróć
           </Link>
         </form>
       </Fragment>

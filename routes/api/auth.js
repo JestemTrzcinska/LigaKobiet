@@ -28,7 +28,7 @@ router.post(
   '/',
   [
     check('email', 'Proszę podaj prawidłowego maila.').isEmail(),
-    check('password', 'Proszę podaj prawidłowe hasło.').exists()
+    check('password', 'Proszę podaj prawidłowe hasło.').exists(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -43,22 +43,22 @@ router.post(
       let user = await User.findOne({ email });
       if (!user) {
         return res.status(400).json({
-          errors: [{ msg: 'Podano błędne dane logowania.' }]
+          errors: [{ errors: [{ msg: 'Podano błędne dane logowania.' }] }],
         });
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
         return res.status(400).json({
-          errors: [{ msg: 'Podano błędne dane logowania.' }]
+          errors: [{ errors: [{ msg: 'Podano błędne dane logowania.' }] }],
         });
       }
 
       // Return jsonwebtoken
       const payload = {
         user: {
-          id: user.id
-        }
+          id: user.id,
+        },
       };
       jwt.sign(
         payload,

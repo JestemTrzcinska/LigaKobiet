@@ -12,7 +12,7 @@ const EditClub = ({ club: { club, loading }, createClub, getClubById }) => {
   });
 
   useEffect(() => {
-    getClubById();
+    getClubById(club._id);
 
     setFormData({
       name: loading || !club.name ? '' : club.name,

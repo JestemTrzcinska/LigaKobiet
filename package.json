@@ -13,19 +13,19 @@
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "config": "^3.2.4",
+    "config": "^3.3.1",
     "express": "^4.17.1",
-    "express-validator": "^6.2.0",
+    "express-validator": "^6.5.0",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.26.0",
-    "mongoose": "^5.7.12",
+    "mongoose": "^5.9.17",
     "react-moment": "^0.9.7",
-    "request": "^2.88.0",
+    "request": "^2.88.2",
     "styled-components": "^4.4.1"
   },
   "devDependencies": {
-    "concurrently": "^5.0.0",
-    "nodemon": "^2.0.1"
+    "concurrently": "^5.2.0",
+    "nodemon": "^2.0.4"
   }
 }

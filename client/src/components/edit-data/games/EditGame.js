@@ -4,7 +4,6 @@ import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createGame, getGameById } from '../../../actions/game';
-import Moment from 'react-moment';
 
 const EditGame = ({ game: { game, loading }, createGame, getGameById }) => {
   const [formData, setFormData] = useState({
@@ -45,8 +44,6 @@ const EditGame = ({ game: { game, loading }, createGame, getGameById }) => {
     setGoalForTeamHome(goalForTeamHome);
     setShotBy('');
     setIsOwn(isOwn);
-
-    console.log(goal);
   };
 
   const onChange = (e) =>

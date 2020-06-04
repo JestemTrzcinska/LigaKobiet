@@ -27,7 +27,7 @@ router.post(
     let leagueFromDB = await League.findOne({ name, from, to });
     if (leagueFromDB) {
       return res.status(400).json({
-        errors: [{ msg: 'Taka liga już istnieje.' }],
+        errors: [{ errors: [{ msg: 'Taka liga już istnieje.' }] }],
       });
     }
     try {
@@ -71,7 +71,11 @@ router.get('/', async (req, res) => {
     const league = await League.find();
     if (!league) {
       return res.status(404).json({
-        msg: 'Nie ma ani jednej ligi w bazie danych.',
+        errors: [
+          {
+            msg: 'Nie ma ani jednej ligi w bazie danych.',
+          },
+        ],
       });
     }
     res.json(league);
@@ -90,7 +94,7 @@ router.get('/:leagueID', async (req, res) => {
     if (!league) {
       return res
         .status(404)
-        .json({ msg: 'Nie ma ani jednej ligi w bazie danych.' });
+        .json({ errors: [{ msg: 'Nie ma ani jednej ligi w bazie danych.' }] });
     }
     res.json(league);
   } catch (err) {

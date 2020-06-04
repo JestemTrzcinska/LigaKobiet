@@ -54,7 +54,7 @@ export const createPlayer = (formData, edit = false) => async (dispatch) => {
 
     dispatch(
       setAlert(
-        edit ? 'Zawodniczka zaktualizowana' : 'Zawodniczka utworzony',
+        edit ? 'Zawodniczka zaktualizowana' : 'Zawodniczka dodana',
         'success'
       )
     );

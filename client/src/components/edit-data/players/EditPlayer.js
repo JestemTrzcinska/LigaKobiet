@@ -20,7 +20,7 @@ const EditPlayer = ({
   // goals
 
   useEffect(() => {
-    getPlayerById();
+    getPlayerById(player._id);
 
     setFormData({
       firstName: loading || !player.firstName ? '' : player.firstName,

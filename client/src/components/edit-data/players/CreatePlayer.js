@@ -21,7 +21,7 @@ const CreatePlayer = ({ createPlayer }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createPlayer(formData, true);
+    createPlayer(formData);
   };
 
   return (
@@ -29,7 +29,7 @@ const CreatePlayer = ({ createPlayer }) => {
       <Fragment>
         <form className='form' onSubmit={(e) => onSubmit(e)}>
           <p className='lead'>
-            <i className='fas fa-user'></i> Edycja zawodniczki
+            <i className='fas fa-user'></i> Dodaj zawodniczkę
           </p>
           <div className='form-group'>
             <small className='form-text'>*Imię:</small>

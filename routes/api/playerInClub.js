@@ -32,7 +32,9 @@ router.post(
       if (!clubDB) {
         return res
           .status(400)
-          .json({ msg: 'Taki klub nie istnieje w bazie danych.' });
+          .json({
+            errors: [{ msg: 'Taki klub nie istnieje w bazie danych.' }],
+          });
       }
 
       // See if player is it db
@@ -47,14 +49,18 @@ router.post(
       if (!playerDB) {
         return res
           .status(400)
-          .json({ msg: 'Taka zawodniczka nie istnieje w bazie danych.' });
+          .json({
+            errors: [{ msg: 'Taka zawodniczka nie istnieje w bazie danych.' }],
+          });
       }
 
       // See if the InClub already exists
       let PICdb = await PlayerInClub.findOne({ from, clubDB, playerDB });
       if (PICdb) {
         return res.status(400).json({
-          errors: [{ msg: 'Taki powiązanie istnieje już w bazie.' }],
+          errors: [
+            { errors: [{ msg: 'Taki powiązanie istnieje już w bazie.' }] },
+          ],
         });
       }
 
@@ -90,8 +96,12 @@ router.get('/', async (req, res) => {
       .populate('player');
     if (!playerInClub) {
       return res.status(404).json({
-        msg:
-          'Nie ma ani jednej przynależności zawodniczki z klubem w bazie danych.',
+        errors: [
+          {
+            msg:
+              'Nie ma ani jednej przynależności zawodniczki z klubem w bazie danych.',
+          },
+        ],
       });
     }
     res.json(playerInClub);
@@ -113,7 +123,11 @@ router.get('/:playerInClubID', async (req, res) => {
       .populate('club');
     if (!playerInClub) {
       return res.status(404).json({
-        msg: `Zawodniczka ${player.firstName} ${player.lastName} nie ma powiązania zawodnik-klub.`,
+        errors: [
+          {
+            msg: `Zawodniczka ${player.firstName} ${player.lastName} nie ma powiązania zawodnik-klub.`,
+          },
+        ],
       });
     }
     res.json(playerInClub);
@@ -135,8 +149,12 @@ router.get('/player/:playerID', async (req, res) => {
       .populate('club');
     if (!playerInClub) {
       return res.status(404).json({
-        msg:
-          'Nie ma ani jednej przynależności zawodniczki z klubem w bazie danych.',
+        errors: [
+          {
+            msg:
+              'Nie ma ani jednej przynależności zawodniczki z klubem w bazie danych.',
+          },
+        ],
       });
     }
     res.json(playerInClub);

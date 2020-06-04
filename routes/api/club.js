@@ -28,7 +28,7 @@ router.post(
     if (!leagueFromDB) {
       return res
         .status(400)
-        .json({ msg: 'Taka liga nie istnieje w bazie danych.' });
+        .json({ errors: [{ msg: 'Taka liga nie istnieje w bazie danych.' }] });
     }
 
     // Get clubs gravatar
@@ -86,7 +86,9 @@ router.get('/', async (req, res) => {
     if (!club) {
       return res
         .status(404)
-        .json({ msg: 'Nie ma ani jednego klubu w bazie danych.' });
+        .json({
+          errors: [{ msg: 'Nie ma ani jednego klubu w bazie danych.' }],
+        });
     }
     res.json(club);
   } catch (err) {
@@ -106,7 +108,9 @@ router.get('/:clubID', async (req, res) => {
     if (!club) {
       return res
         .status(404)
-        .json({ msg: 'Nie ma ani jednego klubu w bazie danych.' });
+        .json({
+          errors: [{ msg: 'Nie ma ani jednego klubu w bazie danych.' }],
+        });
     }
     res.json(club);
   } catch (err) {

@@ -99,7 +99,9 @@ router.get('/', async (req, res) => {
     if (!player) {
       return res
         .status(404)
-        .json({ msg: 'Nie ma ani jednej zawodniczki w bazie danych.' });
+        .json({
+          errors: [{ msg: 'Nie ma ani jednej zawodniczki w bazie danych.' }],
+        });
     }
     res.json(player);
   } catch (err) {
@@ -117,7 +119,9 @@ router.get('/:playerID', async (req, res) => {
     if (!player) {
       return res
         .status(404)
-        .json({ msg: 'Nie ma ani jednej zawodniczki w bazie danych.' });
+        .json({
+          errors: [{ msg: 'Nie ma ani jednej zawodniczki w bazie danych.' }],
+        });
     }
     res.json(player);
   } catch (err) {

@@ -30,11 +30,9 @@ router.post(
         name: club,
       });
       if (!clubDB) {
-        return res
-          .status(400)
-          .json({
-            errors: [{ msg: 'Taki klub nie istnieje w bazie danych.' }],
-          });
+        return res.status(400).json({
+          errors: [{ msg: 'Taki klub nie istnieje w bazie danych.' }],
+        });
       }
 
       // See if player is it db
@@ -47,11 +45,9 @@ router.post(
         name: playerNameReq,
       });
       if (!playerDB) {
-        return res
-          .status(400)
-          .json({
-            errors: [{ msg: 'Taka zawodniczka nie istnieje w bazie danych.' }],
-          });
+        return res.status(400).json({
+          errors: [{ msg: 'Taka zawodniczka nie istnieje w bazie danych.' }],
+        });
       }
 
       // See if the InClub already exists
@@ -125,7 +121,8 @@ router.get('/:playerInClubID', async (req, res) => {
       return res.status(404).json({
         errors: [
           {
-            msg: `Zawodniczka ${player.firstName} ${player.lastName} nie ma powiązania zawodnik-klub.`,
+            msg:
+              'Nie ma ani jednej przynależności zawodniczki z klubem w bazie danych.',
           },
         ],
       });
@@ -151,8 +148,7 @@ router.get('/player/:playerID', async (req, res) => {
       return res.status(404).json({
         errors: [
           {
-            msg:
-              'Nie ma ani jednej przynależności zawodniczki z klubem w bazie danych.',
+            msg: `Zawodniczka ${player.firstName} ${player.lastName} nie ma powiązania z klubem.`,
           },
         ],
       });

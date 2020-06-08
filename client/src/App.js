@@ -27,11 +27,13 @@ import EditLeague from './components/edit-data/leagues/EditLeague';
 import CreateLeague from './components/edit-data/leagues/CreateLeague';
 import EditPlayer from './components/edit-data/players/EditPlayer';
 import CreatePlayer from './components/edit-data/players/CreatePlayer';
+import CreatePlayerInClub from './components/edit-data/players/CreatePlayerInClub';
 
 import Game from './components/game/Game';
 import Club from './components/club/Club';
 import League from './components/league/League';
 import Player from './components/player/Player';
+import PlayerInClub from './components/player/PlayerInClub';
 
 import PrivateRoute from './components/routing/PrivateRoute';
 import IsStaffRoute from './components/routing/IsStaffRoute';
@@ -67,6 +69,7 @@ const App = () => {
             <Route exact path='/club/:id' component={Club} />
             <Route exact path='/league/:id' component={League} />
             <Route exact path='/player/:id' component={Player} />
+            <Route exact path='/playerInClub/:id' component={PlayerInClub} />
 
             <PrivateRoute exact path='/dashboard' component={Dashboard} />
             <PrivateRoute exact path='/edit-profile' component={EditProfile} />
@@ -101,6 +104,11 @@ const App = () => {
               exact
               path='/create-player'
               component={CreatePlayer}
+            />
+            <IsStaffRoute
+              exact
+              path='/create-playerInClub'
+              component={CreatePlayerInClub}
             />
           </Switch>
         </Fragment>

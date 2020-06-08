@@ -80,7 +80,7 @@ export const createPlayerInClub = (formData, edit = false) => async (
       setAlert(
         edit
           ? 'Zawodniczka w klubie zaktualizowana'
-          : 'Zawodniczka w klubie utworzony',
+          : 'Zawodniczka w klubie utworzona',
         'success'
       )
     );

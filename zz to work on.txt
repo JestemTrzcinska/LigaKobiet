@@ -46,10 +46,10 @@ po dodaniu urodzenia zawodniczce robi się nowa zawodniczka, przemyśleć to
 
 ilość bramek CreateGame EditGame nie mniejsza niż 1
 
-alert Bad Request 400 nie pokazuje się w alertach
-
 wyłączyć możliwość edytowania wymaganych rzeczy w formularzach
 
 komunikat edycji i dodawania: Potwierdzam, że informacje zawarte przezemnie są prawdziwe i rozumiem, że zamierzony błąd spowoduje utratę punktów
 
 po dodaniu zawodnika komunikat: Zawodnik został dodany. Dodaj go do odpowiedniego klubu w zakładce Dodaj Zawodnika w klubie
+
+mam zapisane w StaffRouter to nie musze robic sprawdzaniachyba again w navbar

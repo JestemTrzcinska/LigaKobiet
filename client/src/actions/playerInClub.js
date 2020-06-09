@@ -72,7 +72,7 @@ export const createPlayerInClub = (formData, edit = false) => async (
     const res = await axios.post('/api/playerInClub', formData, config);
 
     dispatch({
-      type: GET_PLAYERSINCLUB,
+      type: GET_PLAYERINCLUB,
       payload: res.data,
     });
 

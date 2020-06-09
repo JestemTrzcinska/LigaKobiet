@@ -40,8 +40,6 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
     </li>
   );
 
-  const nothing = '';
-
   return (
     <nav className='navbar navbar-expand-lg navbar-dark'>
       <button
@@ -60,11 +58,9 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
           <ul className='navnav justify-content-md-center navbar-nav'>
             {!loading && (
               <Fragment>
-                {isAuthenticated ? (
-                  <Fragment>{user.isStaff ? staffLinks : nothing}</Fragment>
-                ) : (
-                  nothing
-                )}
+                {isAuthenticated && user && user.isStaff ? (
+                  <Fragment>{staffLinks}</Fragment>
+                ) : null}
               </Fragment>
             )}
             <li className='btn-lg nav-item' xs lg='5'>

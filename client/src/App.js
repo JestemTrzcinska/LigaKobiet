@@ -3,8 +3,9 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
-import LoginRegister from './components/auth/LoginRegister';
 import Alert from './components/layout/Alert';
+import PageNotFound from './components/layout/PageNotFound';
+import LoginRegister from './components/auth/LoginRegister';
 import Schedule from './components/schedule/Schedule';
 import Dashboard from './components/schedule/Dashboard';
 
@@ -28,6 +29,7 @@ import CreateLeague from './components/edit-data/leagues/CreateLeague';
 import EditPlayer from './components/edit-data/players/EditPlayer';
 import CreatePlayer from './components/edit-data/players/CreatePlayer';
 import CreatePlayerInClub from './components/edit-data/players/CreatePlayerInClub';
+import EditPlayerInClub from './components/edit-data/players/EditPlayerInClub';
 
 import Game from './components/game/Game';
 import Club from './components/club/Club';
@@ -107,9 +109,15 @@ const App = () => {
             />
             <IsStaffRoute
               exact
+              path='/edit-playerInClub'
+              component={EditPlayerInClub}
+            />
+            <IsStaffRoute
+              exact
               path='/create-playerInClub'
               component={CreatePlayerInClub}
             />
+            <Route component={PageNotFound} />
           </Switch>
         </Fragment>
       </Router>

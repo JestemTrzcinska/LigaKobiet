@@ -7,13 +7,17 @@ const LoginRegister = () => {
   return (
     <div className='logowanie1'>
       <div className='logowanie2'>
-        <div className='logowanie3'>
-          <Col>
-            <Login />
-          </Col>
-          <Col className='topp'>
-            <Register />
-          </Col>
+        <div className='beginning'>
+          <div className='darker-bg'>
+            <div className='logowanie3'>
+              <Col>
+                <Login />
+              </Col>
+              <Col className='topp'>
+                <Register />
+              </Col>
+            </div>
+          </div>
         </div>
       </div>
     </div>

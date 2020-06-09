@@ -55,19 +55,17 @@ router.post(
         lastName,
         birth,
       });
-      // console.log(player);
 
       if (player) {
         // Update
-        const player2 = await Player.findOneAndUpdate(
+        player = await Player.findOneAndUpdate(
           {
             _id: player._id,
           },
           { $set: { firstName, lastName, name, avatar, birth } },
           { new: true }
         );
-        // console.log(player2);
-        return res.json(player2);
+        return res.json(player);
       }
 
       // Create
@@ -97,11 +95,9 @@ router.get('/', async (req, res) => {
   try {
     const player = await Player.find();
     if (!player) {
-      return res
-        .status(404)
-        .json({
-          errors: [{ msg: 'Nie ma ani jednej zawodniczki w bazie danych.' }],
-        });
+      return res.status(404).json({
+        errors: [{ msg: 'Nie ma ani jednej zawodniczki w bazie danych.' }],
+      });
     }
     res.json(player);
   } catch (err) {
@@ -117,11 +113,9 @@ router.get('/:playerID', async (req, res) => {
   try {
     const player = await Player.findOne({ _id: req.params.playerID });
     if (!player) {
-      return res
-        .status(404)
-        .json({
-          errors: [{ msg: 'Nie ma ani jednej zawodniczki w bazie danych.' }],
-        });
+      return res.status(404).json({
+        errors: [{ msg: 'Nie ma ani jednej zawodniczki w bazie danych.' }],
+      });
     }
     res.json(player);
   } catch (err) {

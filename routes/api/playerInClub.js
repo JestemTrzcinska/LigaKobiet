@@ -24,53 +24,69 @@ router.post(
 
     const { from, to, current, club, player } = req.body;
 
+    // See if club is it db
+    const clubDB = await Club.findOne({
+      name: club,
+    });
+    if (!clubDB) {
+      return res.status(400).json({
+        errors: [{ msg: 'Taki klub nie istnieje w bazie danych.' }],
+      });
+    }
+
+    const separate = player.split(' ');
+
+    // See if player is it db
+    const playerFirstNameReq = separate[0];
+    const playerLastNameReq = separate[1];
+    const playerNameReq = separate[2];
+
+    const playerDB = await Player.findOne({
+      firstName: playerFirstNameReq,
+      lastName: playerLastNameReq,
+      name: playerNameReq,
+    });
+    if (!playerDB) {
+      return res.status(400).json({
+        errors: [{ msg: 'Taka zawodniczka nie istnieje w bazie danych.' }],
+      });
+    }
+
+    // Build playerInClubFields object
+    const PICFields = {};
+
+    PICFields.from = from;
+    if (to) PICFields.to = to;
+    if (current == true || current == false) PICFields.current = current;
+    PICFields.club = clubDB;
+    PICFields.player = playerDB;
+
     try {
-      // See if club is it db
-      const clubDB = await Club.findOne({
-        name: club,
-      });
-      if (!clubDB) {
-        return res.status(400).json({
-          errors: [{ msg: 'Taki klub nie istnieje w bazie danych.' }],
-        });
+      let playerInClub = await PlayerInClub.findOne({
+        from,
+        club: clubDB.id,
+        player: playerDB.id,
+      })
+        .populate('club')
+        .populate('player');
+
+      if (playerInClub) {
+        // Update
+        playerInClub = await PlayerInClub.findOneAndUpdate(
+          {
+            _id: playerInClub._id,
+          },
+          { $set: PICFields },
+          { new: true }
+        )
+          .populate('club')
+          .populate('player');
+
+        return res.json(playerInClub);
       }
 
-      // See if player is it db
-      const playerFirstNameReq = player[0];
-      const playerLastNameReq = player[1];
-      const playerNameReq = player[2];
-      const playerDB = await Player.findOne({
-        firstName: playerFirstNameReq,
-        lastName: playerLastNameReq,
-        name: playerNameReq,
-      });
-      if (!playerDB) {
-        return res.status(400).json({
-          errors: [{ msg: 'Taka zawodniczka nie istnieje w bazie danych.' }],
-        });
-      }
-
-      // See if the InClub already exists
-      let PICdb = await PlayerInClub.findOne({ from, clubDB, playerDB });
-      if (PICdb) {
-        return res.status(400).json({
-          errors: [
-            { errors: [{ msg: 'Taki powiązanie istnieje już w bazie.' }] },
-          ],
-        });
-      }
-
-      // Build playerInClubFields object
-      const PICFields = {};
-
-      PICFields.from = from;
-      if (to) PICFields.to = to;
-      if (current == true || current == false) PICFields.current = current;
-      PICFields.club = clubDB;
-      PICFields.player = playerDB;
-
-      const playerInClub = new PlayerInClub(PICFields);
-
+      // Create
+      playerInClub = new PlayerInClub(PICFields);
       await playerInClub.save();
       res.json(playerInClub);
 

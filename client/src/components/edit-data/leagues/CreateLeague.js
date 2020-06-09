@@ -24,47 +24,53 @@ const CreateLeague = ({ createLeague }) => {
 
   return (
     <div className='beginning'>
-      <Fragment>
-        <form className='form' onSubmit={(e) => onSubmit(e)}>
-          <p className='lead'>
-            <i className='fas fa-user'></i> Dodanie ligi
-          </p>
-          <div className='form-group'>
-            <small className='form-text'>*Nazwa:</small>
+      <div className='darker-bg'>
+        <Fragment>
+          <form className='form' onSubmit={(e) => onSubmit(e)}>
+            <p className='lead'>
+              <i className='fas fa-user'></i> Dodanie ligi
+            </p>
+            <div className='form-group'>
+              <small className='form-text'>*Nazwa:</small>
+              <input
+                type='text'
+                placeholder='Nazwa'
+                name='name'
+                value={name}
+                onChange={(e) => onChange(e)}
+              />
+            </div>
+            <div className='form-group'>
+              <small className='form-text'>*Od:</small>
+              <input
+                type='text'
+                placeholder='RRRR-MM-DD'
+                name='from'
+                value={from}
+                onChange={(e) => onChange(e)}
+              />
+            </div>
+            <div className='form-group'>
+              <small className='form-text'>*Do:</small>
+              <input
+                type='text'
+                placeholder='RRRR-MM-DD'
+                name='to'
+                value={to}
+                onChange={(e) => onChange(e)}
+              />
+            </div>
             <input
-              type='text'
-              placeholder='Nazwa'
-              name='name'
-              value={name}
-              onChange={(e) => onChange(e)}
-            />
-          </div>
-          <div className='form-group'>
-            <small className='form-text'>*Od:</small>
-            <input
-              type='text'
-              placeholder='Od'
-              name='from'
-              value={from}
-              onChange={(e) => onChange(e)}
-            />
-          </div>
-          <div className='form-group'>
-            <small className='form-text'>*Do:</small>
-            <input
-              type='text'
-              placeholder='Do'
-              name='to'
-              value={to}
-              onChange={(e) => onChange(e)}
-            />
-          </div>
-          <input type='submit' className='btn btn-primary' value='Potwierdź' />{' '}
-          <Link className='btn btn-warning my-1 white' to='edit-data'>
-            Wróć do danych
-          </Link>
-        </form>
-      </Fragment>
+              type='submit'
+              className='btn btn-primary'
+              value='Potwierdź'
+            />{' '}
+            <Link className='btn btn-warning my-1 white' to='edit-data'>
+              Wróć do danych
+            </Link>
+          </form>
+        </Fragment>
+      </div>
     </div>
   );
 };

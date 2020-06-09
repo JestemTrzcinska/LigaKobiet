@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../../layout/Spinner';
@@ -21,6 +22,12 @@ const PlayersInClub = ({
         <Fragment>
           <div className='profiles'>
             <h1 className='large text-primary'>Zawodniczki w klubie</h1>
+            <Link
+              to='create-playerInClub'
+              className='btn btn-warning my-1 white'
+            >
+              Dodaj zawodniczkę w klubie
+            </Link>
             {/* loop */}
             {playersInClub.length > 0 ? (
               playersInClub.map((playerInClub) => (

@@ -34,8 +34,18 @@ body {
   background-size: cover;
 }
 
+.darker-bg {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
+  padding: 5vh 5vh;
+  border-radius: 25px;
+}
+
 .beginning {
   padding: 10vh 15vh;
+}
+
+.img {
+  width: 80px;
 }
 
 a {
@@ -239,9 +249,8 @@ button {
 
 .logowanie3 {
   height: 100%;
-  width: 80%;
+  width: 100%;
   display: flex;
-  padding-top: 20vh;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -262,16 +271,13 @@ button {
   margin: auto;
 }
 
-@media (max-width: 499px) {
+@media (max-width: 795px) {
   .logowanie3 {
     display: inline;
   }
   .logowanie1 {
     height: 103%;
     width: 100%;
-  }
-  .logowanie2 {
-    padding-top: 15vh;
   }
   .topp {
     padding-top: 10vh;

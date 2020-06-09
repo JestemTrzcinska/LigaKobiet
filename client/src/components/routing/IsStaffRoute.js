@@ -11,7 +11,7 @@ const IsStaffRoute = ({
   <Route
     {...rest}
     render={(props) =>
-      isAuthenticated === true && loading === false && user.isStaff === true ? (
+      isAuthenticated && !loading && user.isStaff === true ? (
         <Component {...props} />
       ) : (
         <Redirect to='/schedule' />

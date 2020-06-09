@@ -1,19 +1,45 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createPlayerInClub } from '../../../actions/playerInClub';
+import {
+  createPlayerInClub,
+  getPlayerInClubById,
+} from '../../../actions/playerInClub';
 
-const CreatePlayerInClub = ({ createPlayerInClub }) => {
+const EditPlayerInClub = ({
+  playerInClub: { playerInClub, loading },
+  createPlayerInClub,
+  getPlayerInClubById,
+}) => {
   const [formData, setFormData] = useState({
     from: '',
     club: '',
     player: '',
-    current: true,
+    current: '',
     to: '',
   });
 
-  const [current, setCurrent] = useState(true);
+  const [current, setCurrent] = useState(playerInClub.current);
+
+  useEffect(() => {
+    getPlayerInClubById(playerInClub._id);
+
+    setFormData({
+      from: loading || !playerInClub.from ? '' : playerInClub.from,
+      to: loading || !playerInClub.to ? '' : playerInClub.to,
+      club: loading || !playerInClub.club ? '' : playerInClub.club.name,
+      player:
+        loading || !playerInClub.player
+          ? ''
+          : playerInClub.player.firstName +
+            ' ' +
+            playerInClub.player.lastName +
+            ' ' +
+            playerInClub.player.name,
+      current: loading || !playerInClub.current ? false : playerInClub.current,
+    });
+  }, [loading, getPlayerInClubById]);
 
   const { from, club, player, to } = formData;
 
@@ -30,9 +56,12 @@ const CreatePlayerInClub = ({ createPlayerInClub }) => {
     if (formData.current === true) {
       formData.to = '';
     }
+    console.log(formData);
     e.preventDefault();
-    createPlayerInClub(formData);
+    createPlayerInClub(formData, true);
   };
+
+  const linkTo = `/playerInClub/${playerInClub._id}`;
 
   return (
     <div className='beginning'>
@@ -40,7 +69,7 @@ const CreatePlayerInClub = ({ createPlayerInClub }) => {
         <Fragment>
           <form className='form' onSubmit={(e) => onSubmit(e)}>
             <p className='lead'>
-              <i className='fas fa-user'></i> Dodanie zawodniczki w klubie
+              <i className='fas fa-user'></i> Edycja zawodniczki w klubie
             </p>
             <div className='form-group'>
               <small className='form-text'>
@@ -104,8 +133,8 @@ const CreatePlayerInClub = ({ createPlayerInClub }) => {
               className='btn btn-primary'
               value='Potwierdź'
             />{' '}
-            <Link className='btn btn-warning my-1 white' to='edit-data'>
-              Wróć do danych
+            <Link className='btn btn-warning my-1 white' to={linkTo}>
+              Wróć
             </Link>
           </form>
         </Fragment>
@@ -114,10 +143,17 @@ const CreatePlayerInClub = ({ createPlayerInClub }) => {
   );
 };
 
-CreatePlayerInClub.propTypes = {
+EditPlayerInClub.propTypes = {
   createPlayerInClub: PropTypes.func.isRequired,
+  getPlayerInClubById: PropTypes.func.isRequired,
+  playerInClub: PropTypes.object.isRequired,
 };
 
-export default connect(null, {
+const mapStateToProps = (state) => ({
+  playerInClub: state.playerInClub,
+});
+
+export default connect(mapStateToProps, {
   createPlayerInClub,
-})(CreatePlayerInClub);
+  getPlayerInClubById,
+})(EditPlayerInClub);

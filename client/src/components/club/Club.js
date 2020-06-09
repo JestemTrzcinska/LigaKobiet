@@ -15,18 +15,25 @@ const Club = ({ getClubById, club: { club, loading }, auth, match }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <Link to='/edit-data' className='btn btn-warning my-1 white'>
-            Powrót do danych
-          </Link>
-          {auth.isAuthenticated &&
-          auth.loading === false &&
-          auth.user.isStaff ? (
-            <Link to='/edit-club' className='btn btn-warning my-1 white'>
-              Edytuj klub
+          <div className='beginning'>
+            <div className='large text-primary'>
+              <img src={club.logo} alt='' className='img' />
+              {'  '}
+              {club.name}
+            </div>
+            <p className=''>{club.league.name}</p>
+
+            <Link to='/edit-data' className='btn btn-warning my-1 white'>
+              Powrót do danych
             </Link>
-          ) : (
-            ''
-          )}
+            {auth.isAuthenticated &&
+            auth.loading === false &&
+            auth.user.isStaff ? (
+              <Link to='/edit-club' className='btn btn-warning my-1 white'>
+                Edytuj klub
+              </Link>
+            ) : null}
+          </div>
         </Fragment>
       )}
     </Fragment>

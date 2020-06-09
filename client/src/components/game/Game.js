@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import { getGameById } from '../../actions/game';
+import Moment from 'react-moment';
 
 const Game = ({ getGameById, game: { game, loading }, auth, match }) => {
   useEffect(() => {
@@ -15,18 +16,25 @@ const Game = ({ getGameById, game: { game, loading }, auth, match }) => {
         <Spinner />
       ) : (
         <Fragment>
-          <Link to='/edit-data' className='btn btn-warning my-1 white'>
-            Powrót do danych
-          </Link>
-          {auth.isAuthenticated &&
-          auth.loading === false &&
-          auth.user.isStaff ? (
-            <Link to='/edit-game' className='btn btn-warning my-1 white'>
-              Edytuj mecz
+          <div className='beginning'>
+            <div className='large text-primary'>
+              {game.teamHome.name} : {game.teamAway.name}
+            </div>
+            <p className=''>{game.league.name}</p>
+            <Moment format='DD-MM-YYYY'>{game.date}</Moment>
+            <p className=''>{game.localization}</p>
+
+            <Link to='/edit-data' className='btn btn-warning my-1 white'>
+              Powrót do danych
             </Link>
-          ) : (
-            ''
-          )}
+            {auth.isAuthenticated &&
+            auth.loading === false &&
+            auth.user.isStaff ? (
+              <Link to='/edit-game' className='btn btn-warning my-1 white'>
+                Edytuj mecz
+              </Link>
+            ) : null}
+          </div>
         </Fragment>
       )}
     </Fragment>

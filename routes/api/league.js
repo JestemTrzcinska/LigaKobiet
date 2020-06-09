@@ -27,7 +27,7 @@ router.post(
     let leagueFromDB = await League.findOne({ name, from, to });
     if (leagueFromDB) {
       return res.status(400).json({
-        errors: [{ errors: [{ msg: 'Taka liga już istnieje.' }] }],
+        errors: [{ msg: 'Taka liga już istnieje.' }],
       });
     }
     try {

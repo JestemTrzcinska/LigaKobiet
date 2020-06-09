@@ -53,3 +53,7 @@ komunikat edycji i dodawania: Potwierdzam, że informacje zawarte przezemnie są
 po dodaniu zawodnika komunikat: Zawodnik został dodany. Dodaj go do odpowiedniego klubu w zakładce Dodaj Zawodnika w klubie
 
 mam zapisane w StaffRouter to nie musze robic sprawdzaniachyba again w navbar
+
+jak jest najlepiej? przerzucać gościa bez isStaff===true na stronę główną? czy zrobić jakoś Page404? layout/PageNotFound już dodane do App.js
+
+jak sprawdzić, która zawodniczka w klubie? routes/api/playerInClub 43 -> sprawdzam tylko po imieniu i nazwisko, a przecież może być takich mnóstwo

@@ -39,12 +39,12 @@ router.post(
     // See if player is it db
     const playerFirstNameReq = separate[0];
     const playerLastNameReq = separate[1];
-    const playerNameReq = separate[2];
+    // const playerNameReq = separate[2];
 
     const playerDB = await Player.findOne({
       firstName: playerFirstNameReq,
       lastName: playerLastNameReq,
-      name: playerNameReq,
+      // name: playerNameReq,
     });
     if (!playerDB) {
       return res.status(400).json({

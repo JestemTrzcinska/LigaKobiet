@@ -10,19 +10,62 @@ const Game = ({ getGameById, game: { game, loading }, auth, match }) => {
   useEffect(() => {
     getGameById(match.params.id);
   }, [getGameById]);
+
+  let sumTeamHome = 0;
+  let sumTeamAway = 0;
+
   return (
     <Fragment>
       {game === null || loading ? (
         <Spinner />
       ) : (
         <Fragment>
+          {game.goals.length > 0
+            ? game.goals.map((item) => {
+                if (!item.goalForTeamHome) {
+                  sumTeamAway = sumTeamAway + item.amount;
+                }
+              })
+            : null}
+          {game.goals.length > 0
+            ? game.goals.map((item) => {
+                if (item.goalForTeamHome) {
+                  sumTeamHome = sumTeamHome + item.amount;
+                }
+              })
+            : null}
           <div className='beginning'>
             <div className='large text-primary'>
-              {game.teamHome.name} : {game.teamAway.name}
+              {game.teamHome.name} {sumTeamHome} : {sumTeamAway}{' '}
+              {game.teamAway.name}
             </div>
             <p className=''>{game.league.name}</p>
-            <Moment format='DD-MM-YYYY'>{game.date}</Moment>
-            <p className=''>{game.localization}</p>
+            <p>
+              Data: <Moment format='D MM YYYY HH:mm'>{game.date}</Moment>
+            </p>
+            <p className=''>Lokalizacja: {game.localization}</p>
+            <p>Spotkanie w {game.league.name}</p>
+
+            {game.goals.length > 0
+              ? game.goals.map((item) => (
+                  <div>
+                    {item.shotBy.firstName} {item.shotBy.lastName} strzeliła{' '}
+                    {item.amount}{' '}
+                    {item.amount === 1
+                      ? 'bramkę'
+                      : item.amount === 2 || item.amount === 4
+                      ? 'bramki'
+                      : 'bramek'}{' '}
+                    {item.amount == 1
+                      ? item.isOwn
+                        ? 'samobójczą'
+                        : ''
+                      : item.isOwn
+                      ? 'samobójcze'
+                      : ''}
+                  </div>
+                ))
+              : null}
 
             <Link to='/edit-data' className='btn btn-warning my-1 white'>
               Powrót do danych

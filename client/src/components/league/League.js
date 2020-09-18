@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import { getLeagueById } from '../../actions/league';
+import Moment from 'react-moment';
 
 const League = ({
   getLeagueById,
@@ -20,18 +21,25 @@ const League = ({
         <Spinner />
       ) : (
         <Fragment>
-          <Link to='/edit-data' className='btn btn-warning my-1 white'>
-            Powrót do danych
-          </Link>
-          {auth.isAuthenticated &&
-          auth.loading === false &&
-          auth.user.isStaff ? (
-            <Link to='/edit-league' className='btn btn-warning my-1 white'>
-              Edytuj ligę
+          <div className='beginning'>
+            <div className='large text-primary'>{league.name}</div>
+            <p>
+              trwa od <Moment format='D MM YYYY'>{league.from}</Moment> do{' '}
+              <Moment format='D MM YYYY'>{league.to}</Moment>
+            </p>
+            <Link to='/edit-data' className='btn btn-warning my-1 white'>
+              Powrót do danych
             </Link>
-          ) : (
-            ''
-          )}
+            {auth.isAuthenticated &&
+            auth.loading === false &&
+            auth.user.isStaff ? (
+              <Link to='/edit-league' className='btn btn-warning my-1 white'>
+                Edytuj ligę
+              </Link>
+            ) : (
+              ''
+            )}
+          </div>
         </Fragment>
       )}
     </Fragment>

@@ -202,7 +202,7 @@ router.post(
             ],
           });
 
-        goalsPreparedForGameFields.shotByFirstName = playerFromDB;
+        goalsPreparedForGameFields.shotBy = playerFromDB;
 
         // is Own?
         if (goals[i].isOwn == true || goals[i].isOwn == false)
@@ -253,7 +253,8 @@ router.get('/', async (req, res) => {
       .sort({ date: -1 })
       .populate('teamHome')
       .populate('teamAway')
-      .populate('league');
+      .populate('league')
+      .populate('goals.shotBy');
     if (!game) {
       return res.status(404).json({
         errors: [
@@ -281,7 +282,8 @@ router.get('/:gameID', async (req, res) => {
     })
       .populate('teamHome')
       .populate('teamAway')
-      .populate('league');
+      .populate('league')
+      .populate('goals.shotBy');
     if (!game) {
       return res.status(404).json({
         errors: [

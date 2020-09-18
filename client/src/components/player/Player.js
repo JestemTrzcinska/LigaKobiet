@@ -20,18 +20,32 @@ const Player = ({
         <Spinner />
       ) : (
         <Fragment>
-          <Link to='/edit-data' className='btn btn-warning my-1 white'>
-            Powrót do danych
-          </Link>
-          {auth.isAuthenticated &&
-          auth.loading === false &&
-          auth.user.isStaff ? (
-            <Link to='/edit-player' className='btn btn-warning my-1 white'>
-              Edytuj zawodniczkę
+          <div className='beginning'>
+            <div className='large text-primary'>
+              <img src={player.avatar} alt='' className='img' />
+              {'  '}
+              {player.firstName} {player.lastName}
+            </div>
+            {player.name}
+            <p>
+              {player.birth ? (
+                <p className=''>Urodzona: {player.birth}</p>
+              ) : null}
+            </p>
+
+            <Link to='/edit-data' className='btn btn-warning my-1 white'>
+              Powrót do danych
             </Link>
-          ) : (
-            ''
-          )}
+            {auth.isAuthenticated &&
+            auth.loading === false &&
+            auth.user.isStaff ? (
+              <Link to='/edit-player' className='btn btn-warning my-1 white'>
+                Edytuj zawodniczkę
+              </Link>
+            ) : (
+              ''
+            )}
+          </div>
         </Fragment>
       )}
     </Fragment>

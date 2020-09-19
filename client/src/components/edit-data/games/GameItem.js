@@ -5,7 +5,7 @@ import Moment from 'react-moment';
 
 const GameItem = ({ game: { _id, teamHome, teamAway, league, date } }) => {
   return (
-    <div>
+    <div className='information'>
       <h6>
         <Link to={`/game/${_id}`}>
           {teamHome.name} : {teamAway.name}

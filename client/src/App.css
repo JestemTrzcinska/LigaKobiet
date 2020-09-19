@@ -379,6 +379,13 @@ a:hover {
   padding: 30px;
 }
 
+.information {
+  background-color: rgba(204, 201, 201, 0.4);
+  max-width: 400px;
+  text-align: center;
+  border-radius: 20px;
+}
+
 /* Profiles Page */
 .profile {
   display: grid;

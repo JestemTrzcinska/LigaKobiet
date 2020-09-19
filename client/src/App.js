@@ -8,6 +8,7 @@ import PageNotFound from './components/layout/PageNotFound';
 import LoginRegister from './components/auth/LoginRegister';
 import Schedule from './components/schedule/Schedule';
 import Dashboard from './components/schedule/Dashboard';
+import News from './components/news/News';
 
 import CreateProfile from './components/profile-forms/CreateProfile';
 import EditProfile from './components/profile-forms/EditProfile';
@@ -66,6 +67,7 @@ const App = () => {
             <Route exact path='/' component={Landing} />
             <Route exact path='/loginregister' component={LoginRegister} />
             <Route exact path='/schedule' component={Schedule} />
+            <Route exact path='/news' component={News} />
 
             <Route exact path='/game/:id' component={Game} />
             <Route exact path='/club/:id' component={Club} />

@@ -1,0 +1,67 @@
+actions/auth
+logout / clear Profile
+line 96
+
+layout/Landing
+jeżeli jesteśmy zalogowani to po klikięciu "Liga Kobiet" nie pokazuje się strona startowa, pomyśl o tym gdzie chcesz by wyrzucało użytkownika, na pewno nie do schedule GŁÓWNA ZE WSZYSTKIM (taki panel - najbliższe mecze, ranking użytkowników, tabela ulubionej drużyny), narazie schedule (tak jak IsStaffRoute)
+
+wideo - opcjonalne wypełnianie: pstryczek, że jak klikasz to się pojawia więcej rzeczy do wpisania w form 047 5:00-7:40, on uzywa w CreateProfile
+
+w Profile jest favClub i lokalizacja, którą można wziąć z bazy i npm jakiegoś.
+profile-forms CreateProfile
+
+FRONT
+żeby najpierw usuwał alert a potem przerzucał na inną stronę (Register linijka 26)
+
+
+BAZA DANYCH
+TeamHome - TeamAway nie powtórzy się w ciągu rundy!!!!!!
+będzie trzeba zrobić sprawdzenie routes/api/game.js
+kiedy podział mistrzowska/spadkowa się zaczyna (!)
+
+użytkownika kontakt to żart, zmień to
+
+w CreateProfile nie ma powiadomień że źle się podało drużynę, dać listę rozwijaną z drużynami
+
+Użytkownicy - role - uprawnienia
+
+User ma Date.now jako date utworzenia, niestety GMT-1
+
+# komentarze, komentarze do komentarzy w Meczach
+# zapisywanie modyfikacji użytkowników + (mających role)
+# jak komentarze to powiadomienia
+
+/dashboard musi być bliżej środka
+
+druga kolumna Dashboard -> avatar nie działa jeszcze + edycja avatara
+
+po zalogowanym user.isStaff, wylogowaniu i zalogowaniu user pokazuje się przez chwile "Edytuj Dane" !!!!!!!!
+
+możliwość edycji Avatara w normalny sposób
+
+wbijasz do DODAJ MECZ i tam wpisujesz dane, które już są - to on edytuje je, halo halo, jakiś alert, że w takim razie edytujesz dane czy coś
+te drużyny grały już ze sobą - musi się pokazać że to edit
+
+po dodaniu urodzenia zawodniczce robi się nowa zawodniczka, przemyśleć to
+
+ilość bramek CreateGame EditGame nie mniejsza niż 1
+
+wyłączyć możliwość edytowania wymaganych rzeczy w formularzach
+
+komunikat edycji i dodawania: Potwierdzam, że informacje zawarte przezemnie są prawdziwe i rozumiem, że zamierzony błąd spowoduje utratę punktów
+
+po dodaniu zawodnika komunikat: Zawodnik został dodany. Dodaj go do odpowiedniego klubu w zakładce Dodaj Zawodnika w klubie
+
+mam zapisane w StaffRouter to nie musze robic sprawdzaniachyba again w navbar
+
+jak jest najlepiej? przerzucać gościa bez isStaff===true na stronę główną? czy zrobić jakoś Page404? layout/PageNotFound już dodane do App.js
+
+jak sprawdzić, która zawodniczka w klubie? routes/api/playerInClub 43 -> sprawdzam tylko po imieniu i nazwisko, a przecież może być takich mnóstwo
+
+jak validować zawodnika
+
+liga i zawdnicy edycja-> powrót nie do wszystkich danych
+
+ZEBY DANE (W PROFILU ULUB KLUB) BYLY WYBIERALNE Z LISTY
+
+zmienić jwt time z 36000 na 3600

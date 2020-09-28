@@ -6,8 +6,8 @@ import Landing from './components/layout/Landing';
 import Alert from './components/layout/Alert';
 import PageNotFound from './components/layout/PageNotFound';
 import LoginRegister from './components/auth/LoginRegister';
-import Schedule from './components/schedule/Schedule';
-import Dashboard from './components/schedule/Dashboard';
+import Schedule from './components/Schedule/Schedule';
+import Dashboard from './components/Schedule/Dashboard';
 import News from './components/news/News';
 
 import CreateProfile from './components/profile-forms/CreateProfile';

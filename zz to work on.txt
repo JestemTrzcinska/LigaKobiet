@@ -61,3 +61,7 @@ jak sprawdzić, która zawodniczka w klubie? routes/api/playerInClub 43 -> spraw
 jak validować zawodnika
 
 liga i zawdnicy edycja-> powrót nie do wszystkich danych
+
+ZEBY DANE (W PROFILU ULUB KLUB) BYLY WYBIERALNE Z LISTY
+
+zmienić jwt time z 36000 na 3600

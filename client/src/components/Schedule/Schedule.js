@@ -9,40 +9,40 @@ import Moment from 'react-moment';
 
 const moment = require('moment');
 
-function getDaysArray(year, month) {
-  var numDaysInMonth, daysIndex, index, i, l, daysArray;
+// function getDaysArray(year, month) {
+//   var numDaysInMonth, daysIndex, index, i, l, daysArray;
 
-  numDaysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-  daysIndex = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
-  index = daysIndex[new Date(year, month - 1, 1).toString().split(' ')[0]];
-  daysArray = [day];
+//   numDaysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+//   daysIndex = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+//   index = daysIndex[new Date(year, month - 1, 1).toString().split(' ')[0]];
+//   daysArray = [day];
 
-  for (i = 0, l = numDaysInMonth[month - 1]; i < l; i++) {
-    daysArray.push(i + 1);
-    if (index == 7) index = 0;
-  }
+//   for (i = 0, l = numDaysInMonth[month - 1]; i < l; i++) {
+//     daysArray.push(i + 1);
+//     if (index == 7) index = 0;
+//   }
 
-  return daysArray;
-}
+//   return daysArray;
+// }
 
 const Schedule = ({ getGames, game: { games, loading } }) => {
-  const AddingEventToADay = () => {
-    getDaysArray(moment().format('YYYY'), moment().format('M')).map(
-      (day, i) => {
-        games.map((game) => {
-          if (
-            moment().format('M') == moment(game.date).format('M') &&
-            moment().format('YYYY') == moment(game.date).format('YYYY') &&
-            day == moment(game.date).format('D')
-          ) {
-            console.log(moment(game.date).format('D M YYYY'));
-          } else {
-            console.log('nie ma meczy w tym miesiącu lub/i roku');
-          }
-        });
-      }
-    );
-  };
+  // const AddingEventToADay = () => {
+  //   getDaysArray(moment().format('YYYY'), moment().format('M')).map(
+  //     (day, i) => {
+  //       games.map((game) => {
+  //         if (
+  //           moment().format('M') == moment(game.date).format('M') &&
+  //           moment().format('YYYY') == moment(game.date).format('YYYY') &&
+  //           day == moment(game.date).format('D')
+  //         ) {
+  //           console.log(moment(game.date).format('D M YYYY'));
+  //         } else {
+  //           console.log('nie ma meczy w tym miesiącu lub/i roku');
+  //         }
+  //       });
+  //     }
+  //   );
+  // };
   useEffect(() => {
     getGames();
   }, [getGames]);

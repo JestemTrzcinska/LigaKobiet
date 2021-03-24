@@ -1,6 +1,6 @@
 # Liga kobiet
 
-Liga Kobiet is my first MERN project. It'll be a commercial app one day.
+Liga Kobiet is my first MERN project. It'll be a commercial app one day. There is still so much to work on.
 
 ## Setup
 
@@ -9,7 +9,6 @@ To run application (server and client sides)
 ```
 npm install
 npm run dev
-
 ```
 
 ## Technologies
